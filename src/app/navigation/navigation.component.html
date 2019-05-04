@@ -1,0 +1,40 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark"> 
+  <!-- sticky-top -->
+  <div class="container">
+
+
+  <div class="row">
+    <div class="col-md-2 d-sm-none d-xs-none d-md-block">
+      <div class="logo">
+        <span class="first">Շ</span>տեմարան
+      </div>
+    </div>
+    <div class="col-md-10 col-sm-12">
+
+        <a class="navbar-brand" href="#"><span class="first">Շ</span>տեմարան</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navToggle"
+          aria-controls="navToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navToggle">
+          <ul class="navbar-nav mt-2 mt-lg-0" [ngStyle]="{'z-index': submenuHided ? '1' : '99' }">
+            <li class="nav-item" [ngClass]="{'active': selectedItem == item.name }" *ngFor="let item of menu">
+              <a class="nav-link" (click)="listClick($event, item.name)">{{ item.name }}</a>
+              <ng-template [ngIf]="quizes.length > 0 && !submenuHided">
+                <ul class="submenu">
+                  <li *ngFor="let quiz of quizes" (click)="hideSubmenu()">
+                    <a  [routerLink]=[item.link] skipLocationChange 
+                        [queryParams]="{quizId: quiz.id, quizName: quiz.quizName}" 
+                        routerLinkActive="active">{{quiz.quizName}}</a></li>
+                </ul>
+              </ng-template>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+    </div>
+</nav>
+
