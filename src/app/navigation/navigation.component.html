@@ -21,13 +21,15 @@
         <div class="collapse navbar-collapse" id="navToggle">
           <ul class="navbar-nav mt-2 mt-lg-0" [ngStyle]="{'z-index': submenuHided ? '1' : '99' }">
             <li class="nav-item" [ngClass]="{'active': selectedItem == item.name }" *ngFor="let item of menu">
-              <a class="nav-link" (click)="listClick($event, item.name)">{{ item.name }}</a>
-              <ng-template [ngIf]="quizes.length > 0 && !submenuHided">
+              <a *ngIf="item.link != 'statistics'" class="nav-link" (click)="listClick($event, item.name)">{{ item.name }}</a>
+              <a *ngIf="item.link == 'statistics'" class="nav-link" (click)="listClick($event, item.name)" [routerLink]=[item.link] skipLocationChange routerLinkActive="active">{{ item.name }}</a>
+              <ng-template [ngIf]="quizes.length > 0 && !submenuHided && item.link != 'statistics'">
                 <ul class="submenu">
                   <li *ngFor="let quiz of quizes" (click)="hideSubmenu()">
                     <a  [routerLink]=[item.link] skipLocationChange 
                         [queryParams]="{quizId: quiz.id, quizName: quiz.quizName}" 
-                        routerLinkActive="active">{{quiz.quizName}}</a></li>
+                        routerLinkActive="active">{{quiz.quizName}}</a>
+                  </li>
                 </ul>
               </ng-template>
             </li>

@@ -10,6 +10,7 @@ import { ErrorsComponent } from './content/errors/errors.component';
 import { StatisticsComponent } from './content/statistics/statistics.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ExamTypesComponent } from './content/exam-types/exam-types.component';
+import { UnderConstructionComponent } from './content/under-construction/under-construction.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ExamTypesComponent } from './content/exam-types/exam-types.component';
     StoresComponent,
     ErrorsComponent,
     StatisticsComponent,
-    ExamTypesComponent
+    ExamTypesComponent,
+    UnderConstructionComponent
   ],
   imports: [
     BrowserModule,

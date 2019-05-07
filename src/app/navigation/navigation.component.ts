@@ -12,7 +12,7 @@ export class NavigationComponent implements OnInit {
   menu: Array<Object> = [
     { name: 'Շտեմարաններ', link: 'stores' },
     { name: 'Թեստեր', link: 'tests' },
-    { name: 'Սխալներ', link: 'errors'},
+    // { name: 'Սխալներ', link: 'errors'},
     { name: 'Վիճակագրություն', link: 'statistics'}
   ];
   quizes: Quiz[] = [];
