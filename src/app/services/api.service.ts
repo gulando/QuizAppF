@@ -66,7 +66,7 @@ export class APIService {
   }
 
   getQuizThemeByID(quizId: number) {
-    return this.http.get<QuizTheme[]>(`${this.api_url}/quizTheme/GetQuizThemeByID/${quizId}`, this.httpOptions)
+    return this.http.get<QuizTheme[]>(`${this.api_url}/quiz/GetAllQuizThemesByQuizID/${quizId}`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -74,6 +74,15 @@ export class APIService {
     return this.http.get<ExamType[]>(`${this.api_url}/examType/GetAllExamTypes`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
+
+  ///  /api/quiz / GetAllQuestionsByQuizThemes / quizID / list < int > quizThemesIDs
+  GetAllQuestionsByQuizThemes(quizId: number, quizThemesIDs:String) {
+    return this.http.get<ExamType[]>(`${this.api_url}/quiz/GetAllQuestionsByQuizThemes/${quizId}/list/quizThemesIDs`, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+ 
+
 
   // getQuizes(): Observable<Quiz[]> {
   //  // if(environment.production){
