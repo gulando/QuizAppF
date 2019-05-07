@@ -15,6 +15,8 @@ export class StoresComponent implements OnInit {
   private quizId = 0;
   private quizName = '';
   private quizThemes: QuizTheme[] = [];
+  private quizThemeCheckboxes = {};
+  private selectAllText = 'Ընտրել թեման';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -53,13 +55,26 @@ export class StoresComponent implements OnInit {
           { "id": 12, "quizID": 5, "quizThemeName": "Կապակցված խոսք", "quizName": "Հայոց լեզու և հայ գրականություն" },
           { "id": 13, "quizID": 5, "quizThemeName": "Ոճագիտություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
           { "id": 14, "quizID": 5, "quizThemeName": "Ընդհանուր գիտելիքներ", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 15, "quizID": 5, "quizThemeName": "Գրականություն", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 16, "quizID": 5, "quizThemeName": "Պնդումների փունջ", "quizName": "Հայոց լեզու և հայ գրականություն" }
-        ]
+        ];
+        this.quizThemes.map((el) => {
+          this.quizThemeCheckboxes[el.id] = false;
+        });
       }
-      
       );
-
-
     });
+  }
+
+  selectAll(ev) {
+    if (ev.target.checked){
+      this.selectAllText = 'Ընտրել բոլորը'
+    } else {
+      this.selectAllText = 'Ընտրել թեման'
+    }
+    Object.keys(this.quizThemeCheckboxes).map(id => this.quizThemeCheckboxes[id] = ev.target.checked);
+  }
+
+  startExam() {
+    console.log("Here we go!");
   }
 
   ngOnDestroy() {
