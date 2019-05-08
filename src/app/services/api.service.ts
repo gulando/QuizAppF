@@ -76,11 +76,10 @@ export class APIService {
   }
 
   ///  /api/quiz / GetAllQuestionsByQuizThemes / quizID / list < int > quizThemesIDs
-  GetAllQuestionsByQuizThemes(quizId: number, quizThemesIDs:String) {
-    return this.http.get<ExamType[]>(`${this.api_url}/quiz/GetAllQuestionsByQuizThemes/${quizId}/list/quizThemesIDs`, this.httpOptions)
+  getAllQuestionsByQuizThemes(quizId: number, quizThemesIDs:String) {
+    return this.http.get<ExamType[]>(`${this.api_url}/quiz/GetAllQuestionsByQuizThemes/${quizId}/list`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
-
  
 
 

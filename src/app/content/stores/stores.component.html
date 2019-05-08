@@ -1,6 +1,10 @@
 <div *ngIf="quizThemes.length>0" class="blurred">
-    <br/>
     <div class="container">
+        <div *ngIf="examStarted; else chooseQuizThemes">
+            <app-exam></app-exam>
+        </div>
+        <ng-template #chooseQuizThemes>
+        <br/>
         <div class="row">
             <div class="col-md-4 col-sm-4 offset-md-1">
                 <ul>
@@ -26,8 +30,7 @@
                 </button>
             </div>
         </div>
-    </div>
-
-
+    </ng-template>
+</div>
 </div>
 

@@ -12,6 +12,7 @@ export class StoresComponent implements OnInit {
   private quizSub;
   private typeSub;
   private examType = 0;
+  private examStarted = false;
   private quizId = 0;
   private quizName = '';
   private quizThemes: QuizTheme[] = [];
@@ -74,7 +75,44 @@ export class StoresComponent implements OnInit {
   }
 
   startExam() {
-    console.log("Here we go!");
+    this.examStarted = true;
+    this.api.getAllQuestionsByQuizThemes(this.quizId, '').subscribe(
+      (data) => {
+        console.log(this.quizId, data);
+        /*
+          [
+   {
+      "id":15,
+      "quizID":5,
+      "quizThemeID":8,
+      "quizName":"Հայոց լեզու և հայ գրականություն",
+      "quizThemeName":"Բառագիտություն",
+      "correctAnswer":"2"
+   },
+   {
+      "id":16,
+      "quizID":5,
+      "quizThemeID":8,
+      "quizName":"Հայոց լեզու և հայ գրականություն",
+      "quizThemeName":"Բառագիտություն",
+      "correctAnswer":"2"
+   },
+   {
+      "id":17,
+      "quizID":5,
+      "quizThemeID":8,
+      "quizName":"Հայոց լեզու և հայ գրականություն",
+      "quizThemeName":"Բառագիտություն",
+      "correctAnswer":"5"
+   },
+
+        */
+        // this.quizThemes = data;
+        // if (!this.quizThemes) {
+
+        // }
+      }
+    );
   }
 
   ngOnDestroy() {

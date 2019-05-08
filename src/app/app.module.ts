@@ -12,6 +12,7 @@ import { StatisticsComponent } from './content/statistics/statistics.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ExamTypesComponent } from './content/exam-types/exam-types.component';
 import { UnderConstructionComponent } from './content/under-construction/under-construction.component';
+import { ExamComponent } from './content/exam/exam.component';
 
 
 
@@ -24,7 +25,8 @@ import { UnderConstructionComponent } from './content/under-construction/under-c
     ErrorsComponent,
     StatisticsComponent,
     ExamTypesComponent,
-    UnderConstructionComponent
+    UnderConstructionComponent,
+    ExamComponent
   ],
   imports: [
     BrowserModule,

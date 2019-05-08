@@ -8,6 +8,15 @@
 //   ) { }
 // }
 
+export interface Question {
+    correctAnswer: number,
+    id: number,
+    quizID: number,
+    quizName: string,
+    quizThemeID: number,
+    quizThemeName: string
+}
+
 export interface QuizTheme {
     id: number,
     quizID: number,
