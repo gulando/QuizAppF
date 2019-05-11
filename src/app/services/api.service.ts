@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { Quiz, ExamType, QuizTheme } from '../models/quiz.model';
+import { Quiz, ExamType, QuizTheme, Question } from '../models/quiz.model';
 //import { catchError } from 'rxjs/operators/catchError';
 import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
@@ -35,9 +35,9 @@ export class APIService {
     return throwError('Something bad happened; please try again later.');
   };
 
-  saveAsCSV(data: object) {
-    return this.http.post<any>(`${this.api_url}/saveAsCSV`, { data: data }); //, this.httpOptions
-  }
+  // saveAsCSV(data: object) {
+  //   return this.http.post<any>(`${this.api_url}/saveAsCSV`, { data: data }); //, this.httpOptions
+  // }
 
   // readInputJSON(){
   //   return this.http.get('../../assets/data.json');
@@ -76,12 +76,11 @@ export class APIService {
   }
 
   ///  /api/quiz / GetAllQuestionsByQuizThemes / quizID / list < int > quizThemesIDs
+  // /api/quiz / GetAllQuestionsByQuizThemes / 5 ? quizThemeIDs = 7 & quizThemeIDs=8"
   getAllQuestionsByQuizThemes(quizId: number, quizThemesIDs:String) {
-    return this.http.get<ExamType[]>(`${this.api_url}/quiz/GetAllQuestionsByQuizThemes/${quizId}/list`, this.httpOptions)
+    return this.http.get<Question[]>(`${this.api_url}/quiz/GetAllQuestionsByQuizThemes/${quizId}/?${quizThemesIDs}`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
- 
-
 
   // getQuizes(): Observable<Quiz[]> {
   //  // if(environment.production){

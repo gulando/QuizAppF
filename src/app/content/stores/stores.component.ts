@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { QuizTheme } from '../../models/quiz.model';
 
+const link = "stores";
+
 @Component({
   selector: 'app-store',
   templateUrl: './stores.component.html',
@@ -10,12 +12,13 @@ import { QuizTheme } from '../../models/quiz.model';
 })
 export class StoresComponent implements OnInit {
   private quizSub;
-  private typeSub;
-  private examType = 0;
+
   private examStarted = false;
   private quizId = 0;
+  private quizThemeIDs = '';
   private quizName = '';
   private quizThemes: QuizTheme[] = [];
+
   private quizThemeCheckboxes = {};
   private selectAllText = 'Ընտրել թեման';
   constructor(
@@ -25,26 +28,20 @@ export class StoresComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.route.snapshot.paramMap.get("id");
     this.quizSub = this.route.queryParams.subscribe(params => {
       this.quizId = params['quizId'] || 0;
       this.quizName = params['quizName'] || '';
     });
 
-    this.typeSub = this.route.queryParams.subscribe(params => {
-      this.examType = params['examType'] || 0;
-      console.log("examType ", this.examType);
-      if(!this.examType){
-        // this.router.navigate(['product-list'], { queryParams: { page: this.page + 1 } });
-        this.router.navigate(['chooseExamType/'], { queryParams: { quizId: this.quizId, link: 'stores', quizName: this.quizName }, skipLocationChange: true });
-      }
-
-      this.api.getQuizThemeByID(this.quizId).subscribe(
-        (data: QuizTheme[]) => {
+    this.api.getQuizThemeByID(this.quizId).subscribe(
+      (data: QuizTheme[]) => {
         this.quizThemes = data;
-        if(!this.quizThemes) {
-          
+        if (!this.quizThemes) {
+          // Something bad happened
         }
+        this.quizThemes.map((el) => {
+          this.quizThemeCheckboxes[el.id] = false;
+        });
       },
       (error) => {
         this.quizThemes = [
@@ -57,12 +54,9 @@ export class StoresComponent implements OnInit {
           { "id": 13, "quizID": 5, "quizThemeName": "Ոճագիտություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
           { "id": 14, "quizID": 5, "quizThemeName": "Ընդհանուր գիտելիքներ", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 15, "quizID": 5, "quizThemeName": "Գրականություն", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 16, "quizID": 5, "quizThemeName": "Պնդումների փունջ", "quizName": "Հայոց լեզու և հայ գրականություն" }
         ];
-        this.quizThemes.map((el) => {
-          this.quizThemeCheckboxes[el.id] = false;
-        });
+        
       }
-      );
-    });
+    );
   }
 
   selectAll(ev) {
@@ -76,47 +70,14 @@ export class StoresComponent implements OnInit {
 
   startExam() {
     this.examStarted = true;
-    this.api.getAllQuestionsByQuizThemes(this.quizId, '').subscribe(
-      (data) => {
-        console.log(this.quizId, data);
-        /*
-          [
-   {
-      "id":15,
-      "quizID":5,
-      "quizThemeID":8,
-      "quizName":"Հայոց լեզու և հայ գրականություն",
-      "quizThemeName":"Բառագիտություն",
-      "correctAnswer":"2"
-   },
-   {
-      "id":16,
-      "quizID":5,
-      "quizThemeID":8,
-      "quizName":"Հայոց լեզու և հայ գրականություն",
-      "quizThemeName":"Բառագիտություն",
-      "correctAnswer":"2"
-   },
-   {
-      "id":17,
-      "quizID":5,
-      "quizThemeID":8,
-      "quizName":"Հայոց լեզու և հայ գրականություն",
-      "quizThemeName":"Բառագիտություն",
-      "correctAnswer":"5"
-   },
-
-        */
-        // this.quizThemes = data;
-        // if (!this.quizThemes) {
-
-        // }
+    this.quizThemeIDs = Object.keys(this.quizThemeCheckboxes).filter(id => this.quizThemeCheckboxes[id]).map(id => {
+      if (this.quizThemeCheckboxes[id]) {
+        return "&quizThemeIDs="+id;
       }
-    );
+    }).join("");
   }
 
   ngOnDestroy() {
-    this.typeSub.unsubscribe();
     this.quizSub.unsubscribe();
   }
 }

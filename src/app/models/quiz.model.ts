@@ -11,6 +11,7 @@
 export interface Question {
     correctAnswer: number,
     id: number,
+    questionText: string,
     quizID: number,
     quizName: string,
     quizThemeID: number,

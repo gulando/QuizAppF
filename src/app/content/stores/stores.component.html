@@ -1,7 +1,7 @@
 <div *ngIf="quizThemes.length>0" class="blurred">
     <div class="container">
         <div *ngIf="examStarted; else chooseQuizThemes">
-            <app-exam></app-exam>
+            <app-exam [examStarted]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
         </div>
         <ng-template #chooseQuizThemes>
         <br/>

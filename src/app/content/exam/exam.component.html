@@ -1,33 +1,44 @@
-<div class="row exam">
+<div *ngIf="questions.length>0" class="row exam">
     <div class="col-md-8 col-sm-8">
       <div class="question">
-        Hello, I am a question;<br/>
-        <ol>
-          <li>Answer 1</li>
-          <li>Answer 2</li>
-          <li>Answer 3</li>
-          <li>Answer 4</li>
-        </ol>
+        {{questions[currentQuestion].questionText }}
+        <br/>
+        {{examResults |json }}
       </div>
     </div>
     <div class="col-md-4 col-sm-4 text-center">
       <div class="exam_nav ">
-        <button type="button" class="btn btn-sm sht btn-secondary">ՀԱՍՏԱՏԵԼ</button>
-        <button type="button" class="btn btn-sm sht btn-secondary">&#10152;</button>
-        <button type="button" class="btn btn-sm sht btn-secondary">ՊԱՀՊԱՆԵԼ</button>
+        <button [disabled]="examResults[questions[currentQuestion].id]" (click)="confirmAnswer()" type="button" class="btn btn-sm sht btn-secondary">ՀԱՍՏԱՏԵԼ</button>
+        <button (click)="nextQuestion()" type="button" class="btn btn-sm sht btn-secondary">&#10152;</button>
+        <button (click)="saveAnswer()" type="button" class="btn btn-sm sht btn-secondary" style="display: none">ՊԱՀՊԱՆԵԼ</button>
       </div>
-      <div class="answers">
-        <ol>
-          <li><input type="checkbox" title="Answer 1" /></li>
-          <li><input type="checkbox" title="Answer 2" /></li>
-          <li><input type="checkbox" title="Answer 3" /></li>
-          <li><input type="checkbox" title="Answer 4" /></li>
-        </ol>
+      <div class="answers" [ngSwitch]="currentQuestion">
+          <!--<div *ngSwitchCase="1">
+            
+          </div>
+          <div *ngSwitchCase="1">
+          
+          </div>
+          <div *ngSwitchCase="1">
+          
+          </div>
+          <div *ngSwitchCase="1">
+
+          </div>
+        -->
+          <div *ngSwitchDefault>
+            <ol>
+              <li *ngFor="let i of [0,1,2,3]">
+                <input type='checkbox' [disabled]="examResults[questions[currentQuestion].id]" (change)="selectAnswer($event, i)" [(ngModel)]="answerTypes[1][i]" title="Answer {{i+1}}" />
+              </li>
+            </ol>
+          </div>
       </div>
-      Լրացվել է 0<br/>
-      Մնացել է 1000<br/>
+      Լրացվել է {{nbAnswered || 0}}<br/>
+      Մնացել է {{(questions.length - nbAnswered) || 0 }}<br/>
       Ճիշտ է 0<br/>
       Սխալ է 0<br/>
+      <br />
       <button type="button" class="btn btn-sm sht btn-secondary">ԱՎԱՐՏԵԼ</button>
     
     </div>

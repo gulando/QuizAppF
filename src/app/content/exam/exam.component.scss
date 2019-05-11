@@ -3,6 +3,7 @@
 }
 .question, .answers {
     background: white;
+    color:black;
     border-radius: 20px;
     display: block;
     min-height: 200px;
@@ -26,5 +27,10 @@
 
 .exam_nav {
     margin:auto;
+}
+
+.exam_nav .btn {
+    margin-left:3px;
+    outline:none;
 }
 

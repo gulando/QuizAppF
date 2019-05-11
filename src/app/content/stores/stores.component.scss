@@ -58,3 +58,7 @@ label[for=select_all] {
 	content: '\00d7';
 	color: black;
 }
+
+.form-check-input:checked:hover:after {
+	content: '';
+}
