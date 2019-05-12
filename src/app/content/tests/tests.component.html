@@ -1,3 +1,7 @@
-<p>
-  tests works!
-</p>
+<div *ngIf="quizThemes.length>0" class="blurred">
+  <div class="container">
+    <div>
+      <app-exam [examStarted]="examStarted" [quizId]="quizId"></app-exam>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,7 @@ import { FormControl, FormControlName } from '@angular/forms';
 })
 export class ExamComponent implements OnInit {
   questions: Question[] = [];
+  examResults: object = {};
   currentQuestion = 0;
   nbAnswered = 0;
   answerTypes = {
@@ -22,8 +23,9 @@ export class ExamComponent implements OnInit {
   @Input() quizId: number;
   @Input() quizThemeIDs: string;
   @Input() examStarted: boolean;
+  examFinished: boolean = false;
 
-  examResults : object = {};
+  
 
   constructor(
     private api: APIService
@@ -67,6 +69,31 @@ export class ExamComponent implements OnInit {
 
   saveAnser(answerId: number) {
     console.log(answerId);
+  }
+
+  startExam() {
+    // Resetting all necessary params
+    this.examFinished = false;
+    this.examStarted = true;
+    this.examResults = {};
+    this.currentQuestion = 0;
+    this.nbAnswered = 0;
+    this.answerTypes = {
+      "1": [false, false, false, false],
+      "2": [],
+      "3": [],
+      "4": []
+    };
+
+  }
+
+  finishExam(){
+    this.examFinished = true;
+    this.examStarted = false;
+  }
+
+  showErrors(){
+    // Hello
   }
 
 }

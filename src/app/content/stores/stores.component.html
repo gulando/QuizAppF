@@ -1,36 +1,36 @@
-<div *ngIf="quizThemes.length>0" class="blurred">
-    <div class="container">
-        <div *ngIf="examStarted; else chooseQuizThemes">
-            <app-exam [examStarted]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
-        </div>
-        <ng-template #chooseQuizThemes>
-        <br/>
-        <div class="row">
-            <div class="col-md-4 col-sm-4 offset-md-1">
-                <ul>
-                    <li>
-                        <div class="form-check" >
-                            <input class="form-check-input" type="checkbox" value="" (change)="selectAll($event)" id="select_all" >
-                            <label class="form-check-label" for="select_all">{{selectAllText}}</label>
-                        </div>
-                    </li>
-                    <li *ngFor="let quizTheme of quizThemes">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{quizTheme.id}}" [(ngModel)]="quizThemeCheckboxes[quizTheme.id]" id="quizTheme_{{quizTheme.id}}">
-                            <label class="form-check-label" for="quizTheme_{{quizTheme.id}}">
-                                {{quizTheme.quizThemeName}}
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-4 col-sm-4 offset-md-1">
-                <button type="button" class="btn btn-sm sht btn-block" (click)="startExam()">
-                    Սկսել
-                </button>
-            </div>
-        </div>
-    </ng-template>
+<div *ngIf="examStarted && quizThemes.length>0; else chooseQuizThemes">
+    <app-exam [(examStarted)]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
 </div>
-</div>
-
+<ng-template #chooseQuizThemes>
+    <div *ngIf="quizThemes.length>0" class="blurred">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 offset-md-1">
+                    <ul>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" (change)="selectAll($event)"
+                                    id="select_all">
+                                <label class="form-check-label" for="select_all">{{selectAllText}}</label>
+                            </div>
+                        </li>
+                        <li *ngFor="let quizTheme of quizThemes">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{quizTheme.id}}"
+                                    [(ngModel)]="quizThemeCheckboxes[quizTheme.id]" id="quizTheme_{{quizTheme.id}}">
+                                <label class="form-check-label" for="quizTheme_{{quizTheme.id}}">
+                                    {{quizTheme.quizThemeName}}
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-sm-4 offset-md-1">
+                    <button type="button" class="btn btn-sm sht btn-block" (click)="startExam()">
+                        Սկսել
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

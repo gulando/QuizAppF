@@ -77,3 +77,11 @@ button.sht {
     background-color: white;
     color:black;
 }
+
+.blurred {
+	padding: 20px 10px;
+    border-radius: 20px;
+    ///filter: blur(2px);
+    background-color:rgba(43, 40, 42,.9);
+    //-webkit-filter: blur(2px);
+}

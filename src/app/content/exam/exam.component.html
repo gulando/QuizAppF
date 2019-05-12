@@ -1,18 +1,22 @@
-<div *ngIf="questions.length>0" class="row exam">
-    <div class="col-md-8 col-sm-8">
-      <div class="question">
-        {{questions[currentQuestion].questionText }}
-        <br/>
-        {{examResults |json }}
+<div *ngIf="examStarted && questions.length>0" class="blurred">
+  <div class="container">
+    <div class="row exam">
+      <div class="col-md-8 col-sm-8">
+        <div class="question">
+          {{questions[currentQuestion].questionText }}
+          <br />
+          {{examResults |json }}
+        </div>
       </div>
-    </div>
-    <div class="col-md-4 col-sm-4 text-center">
-      <div class="exam_nav ">
-        <button [disabled]="examResults[questions[currentQuestion].id]" (click)="confirmAnswer()" type="button" class="btn btn-sm sht btn-secondary">ՀԱՍՏԱՏԵԼ</button>
-        <button (click)="nextQuestion()" type="button" class="btn btn-sm sht btn-secondary">&#10152;</button>
-        <button (click)="saveAnswer()" type="button" class="btn btn-sm sht btn-secondary" style="display: none">ՊԱՀՊԱՆԵԼ</button>
-      </div>
-      <div class="answers" [ngSwitch]="currentQuestion">
+      <div class="col-md-4 col-sm-4 text-center">
+        <div class="exam_nav ">
+          <button [disabled]="examResults[questions[currentQuestion].id]" (click)="confirmAnswer()" type="button"
+            class="btn btn-sm sht btn-secondary">ՀԱՍՏԱՏԵԼ</button>
+          <button (click)="nextQuestion()" type="button" class="btn btn-sm sht btn-secondary">&#10152;</button>
+          <button (click)="saveAnswer()" type="button" class="btn btn-sm sht btn-secondary"
+            style="display: none">ՊԱՀՊԱՆԵԼ</button>
+        </div>
+        <div class="answers" [ngSwitch]="currentQuestion">
           <!--<div *ngSwitchCase="1">
             
           </div>
@@ -29,17 +33,47 @@
           <div *ngSwitchDefault>
             <ol>
               <li *ngFor="let i of [0,1,2,3]">
-                <input type='checkbox' [disabled]="examResults[questions[currentQuestion].id]" (change)="selectAnswer($event, i)" [(ngModel)]="answerTypes[1][i]" title="Answer {{i+1}}" />
+                <input type='checkbox' [disabled]="examResults[questions[currentQuestion].id]"
+                  (change)="selectAnswer($event, i)" [(ngModel)]="answerTypes[1][i]" title="Answer {{i+1}}" />
               </li>
             </ol>
           </div>
+        </div>
+        Լրացվել է {{nbAnswered || 0}}<br />
+        Մնացել է {{(questions.length - nbAnswered) || 0 }}<br />
+        Ճիշտ է 0<br />
+        Սխալ է 0<br />
+        <br />
+        <button (click)="finishExam()" type="button" class="btn btn-sm sht btn-secondary">ԱՎԱՐՏԵԼ</button>
+
       </div>
-      Լրացվել է {{nbAnswered || 0}}<br/>
-      Մնացել է {{(questions.length - nbAnswered) || 0 }}<br/>
-      Ճիշտ է 0<br/>
-      Սխալ է 0<br/>
-      <br />
-      <button type="button" class="btn btn-sm sht btn-secondary">ԱՎԱՐՏԵԼ</button>
-    
     </div>
   </div>
+</div>
+<div *ngIf="examFinished" class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-4 offset-md-4 blurred text-center">
+          <ul class="exam_res">
+            <li><span class="num">{{(questions.length) || 0 }}</span><span class="txt">Հարց</span>
+            <li><span class="num">{{nbAnswered || 0}}</span><span class="txt">Լրացվել է</span>
+            <li><span class="num">{{(questions.length - nbAnswered) || 0 }}</span><span class="txt">Չի լրացվել</span>
+            <li><span class="num">4</span><span class="txt">Ճիշտ է</span>
+            <li><span class="num">4</span><span class="txt">Սխալ է</span>
+            <li><span class="num">4</span><span class="txt">Ընդամենը միավոր</span>
+            <li><span class="num">4</span><span class="txt">Չհավաքված միավոր</span>
+          </ul>
+          <br/><br />
+          <div style="width:200px; margin:auto;">
+            <button type="button" class="btn btn-sm sht btn-block" (click)="startExam()">
+              Սկսել կրկին
+            </button>
+            <button type="button" class="btn btn-sm sht btn-block" (click)="showErrors()">
+              Ցուցադրել սխալները
+            </button>
+          </div>
+          
+        </div>
+      </div>
+  </div>
+</div>

@@ -34,3 +34,20 @@
     outline:none;
 }
 
+.exam_res {
+    color: white;
+    margin:auto;
+    list-style: none;
+    position: relative;
+    padding:10px;
+    display: inline-block;
+    width:250px;
+    text-align: left;
+}
+
+.exam_res .txt {
+    margin-left:30px;
+    left:30px;
+    position: absolute;
+}
+
