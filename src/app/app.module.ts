@@ -11,10 +11,10 @@ import { ErrorsComponent } from './content/errors/errors.component';
 import { StatisticsComponent } from './content/statistics/statistics.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ExamTypesComponent } from './content/exam-types/exam-types.component';
-import { UnderConstructionComponent } from './content/under-construction/under-construction.component';
+import { UnderConstructionComponent } from './pages/under-construction.component';
 import { ExamComponent } from './content/exam/exam.component';
-
-
+import { ErrorComponent } from './pages/error.component';
+import { HttpErrorInterceptorProvider } from './services/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { ExamComponent } from './content/exam/exam.component';
     StatisticsComponent,
     ExamTypesComponent,
     UnderConstructionComponent,
-    ExamComponent
+    ExamComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +36,7 @@ import { ExamComponent } from './content/exam/exam.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [HttpErrorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
