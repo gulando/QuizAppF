@@ -13,6 +13,8 @@ export class ExamComponent implements OnInit {
   questions: Question[] = [];
   examResults: object = {};
   currentQuestion = 0;
+  currentAnswer:boolean = false;
+  nbCorrectAnswers = 0;
   nbAnswered = 0;
   answerTypes = {
     "1": [false, false, false, false],
@@ -59,6 +61,21 @@ export class ExamComponent implements OnInit {
     if (!this.examResults[this.questions[this.currentQuestion].id]) {
       this.examResults[this.questions[this.currentQuestion].id] = this.answerTypes[1];
       this.nbAnswered++;
+      this.api.isAnswerCorrect(this.questions[this.currentQuestion].id).subscribe(
+        (data) => {
+          
+          /* TODO: should be fixed when the back-end part is ready 
+          this.currentAnswer = data;*/
+          this.currentAnswer = Math.random() >= 0.5;
+          console.log(this.currentAnswer);
+          if (this.currentAnswer) {
+            this.nbCorrectAnswers++;
+          }
+          
+        }
+      );
+      
+    
     } else {
       // The question is already answered, someone is trying to cheat
     }

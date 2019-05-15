@@ -57,4 +57,10 @@ export class APIService {
     return this.http.get(`${this.api_url}/getAccountSessions?account_id=${account_id}`, { responseType: 'json' });
   }
 
+  isAnswerCorrect(question_id: number) {
+    return this.http.get<boolean>(`${this.api_url}/quiz/IsAnswerCorrect/${question_id}`);
+  }
+
+  
+
 }

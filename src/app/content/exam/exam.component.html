@@ -10,8 +10,19 @@
       </div>
       <div class="col-md-4 col-sm-4 text-center">
         <div class="exam_nav ">
-          <button [disabled]="examResults[questions[currentQuestion].id]" (click)="confirmAnswer()" type="button"
-            class="btn btn-sm sht btn-secondary">ՀԱՍՏԱՏԵԼ</button>
+          <button type="button" class="btn btn-sm sht btn-secondary"
+              [ngClass]="{
+                'correct': examResults[questions[currentQuestion].id] && currentAnswer,
+                'wrong':   examResults[questions[currentQuestion].id] && !currentAnswer
+              }"
+              [disabled]="examResults[questions[currentQuestion].id]" 
+              (click)="confirmAnswer()" 
+            >
+            <span *ngIf="!examResults[questions[currentQuestion].id]">ՀԱՍՏԱՏԵԼ</span>
+            <span *ngIf="examResults[questions[currentQuestion].id] && currentAnswer">Ճիշտ է</span>
+            <span *ngIf="examResults[questions[currentQuestion].id] && !currentAnswer">Սխալ է</span>
+            
+          </button>
           <button (click)="nextQuestion()" type="button" class="btn btn-sm sht btn-secondary">&#10152;</button>
           <button (click)="saveAnswer()" type="button" class="btn btn-sm sht btn-secondary"
             style="display: none">ՊԱՀՊԱՆԵԼ</button>
