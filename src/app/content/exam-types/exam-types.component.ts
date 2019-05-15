@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExamType } from '../../models/quiz.model';
 import { ThrowStmt } from '@angular/compiler';
@@ -12,8 +12,8 @@ import { APIService } from '../../services/api.service';
       <div class="row">
         <div class="col-md-8 offset-md-2 col-sm-12">
           <p *ngFor="let examType of examTypes">
-            <button type="button" class="btn btn-sm sht btn-block" (click)="selectExamType(examType.id)">
-              {{examType.examTypeName}}              
+            <button type="button" class="btn btn-sm sht btn-block" (click)="selectExamType(examType.examTypeID)">
+              {{examType.examTypeName}} {{examType.examTypeID}}              
             </button>
           </p>
         </div>
@@ -22,27 +22,33 @@ import { APIService } from '../../services/api.service';
   </div>
 </div>`
 })
-export class ExamTypesComponent implements OnInit {
+export class ExamTypesComponent implements OnInit, AfterViewInit {
+  //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+  //Add 'implements AfterViewInit' to the class.
+  
+
   private examTypeSub;
   private examTypes: ExamType[] = [];
   private quizId;
   private quizName;
   private link;
-
   
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private api: APIService
   ) {
-    this.api.getAllExamTypes().subscribe((data: ExamType[]) => {
-      this.examTypes = data;
+    /* TODO: this should be removed after bug fix */
+    /*
+      this.api.getAllExamTypes().subscribe((data: ExamType[]) => {
+        this.examTypes = data;
+      });
+    */
 
-    });
     if (this.examTypes.length <= 0) {
       this.examTypes = [
-        { "id": 1, "examTypeName": "Ավարտական" }, 
-        { "id": 2, "examTypeName": "Միասնական" }
+        { "examTypeID": 1, "examTypeName": "Ավարտական" }, 
+        { "examTypeID": 2, "examTypeName": "Միասնական" }
       ];
     }
   }
@@ -63,8 +69,11 @@ export class ExamTypesComponent implements OnInit {
       //   this.router.navigate(['chooseExamType'], { queryParams: { page: 'stores' } });
       // }
     });
-    
-    
+
+  }
+
+  ngAfterViewInit(){
+
   }
 
 }

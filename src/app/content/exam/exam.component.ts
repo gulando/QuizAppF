@@ -21,11 +21,9 @@ export class ExamComponent implements OnInit {
     "4": []
   };
   @Input() quizId: number;
-  @Input() quizThemeIDs: string;
+  @Input() quizThemeIDs: string = "";
   @Input() examStarted: boolean;
   examFinished: boolean = false;
-
-  
 
   constructor(
     private api: APIService
@@ -34,7 +32,7 @@ export class ExamComponent implements OnInit {
   ngOnInit() {
     this.api.getAllQuestionsByQuizThemes(this.quizId, this.quizThemeIDs).subscribe(
       (data) => {
-        console.log(this.quizId, data);
+        //console.log(this.quizId, data);
         this.questions = data;
       }
     );

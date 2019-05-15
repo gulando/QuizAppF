@@ -11,7 +11,9 @@ const link= "tests";
   styleUrls: ['./tests.component.scss']
 })
 export class TestsComponent implements OnInit, OnDestroy {
+  private quizSub;
   private quizId = 0;
+  private quizName = '';
   private typeSub;
   private examType = 0;
 
@@ -22,14 +24,19 @@ export class TestsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.quizSub = this.route.queryParams.subscribe(params => {
+      this.quizId = params['quizId'] || 0;
+      this.quizName = params['quizName'] || '';
+    });
 
     this.typeSub = this.route.queryParams.subscribe(params => {
       this.examType = params['examType'] || 0;
       console.log("examType ", this.examType);
       if (!this.examType) {
-        // this.router.navigate(['product-list'], { queryParams: { page: this.page + 1 } });
-        this.router.navigate(['chooseExamType/'], { queryParams: { quizId: this.quizId, link: link, 
-          //quizName: this.quizName 
+        this.router.navigate(['chooseExamType/'], { queryParams: {
+          quizId: this.quizId,
+          quizName: this.quizName, 
+          link: link, 
         }, skipLocationChange: true });
       }
     });

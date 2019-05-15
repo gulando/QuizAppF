@@ -26,7 +26,7 @@ export interface QuizTheme {
 }
 
 export interface ExamType {
-    id: number,
+    examTypeID: number,
     examTypeName: String
 }
 
