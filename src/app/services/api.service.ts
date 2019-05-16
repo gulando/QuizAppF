@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { Quiz, ExamType, QuizTheme, Question } from '../models/quiz.model';
+import { Quiz, ExamType, QuizTheme, Question, AnswerType } from '../models/quiz.model';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -59,6 +59,10 @@ export class APIService {
 
   isAnswerCorrect(question_id: number) {
     return this.http.get<boolean>(`${this.api_url}/quiz/IsAnswerCorrect/${question_id}`);
+  }
+
+  getAllAnswerTypes(){
+    return this.http.get<AnswerType[]>(`${this.api_url}/answerType/GetAllAnswerTypes`);
   }
 
   

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExamType } from '../../models/quiz.model';
 import { ThrowStmt } from '@angular/compiler';
@@ -6,27 +6,36 @@ import { APIService } from '../../services/api.service';
 @Component({
   selector: 'app-exam-types',
   template: `<div class="row">
-  <div class="col-md-4 offset-md-4">
+  <div class="col-md-4 offset-md-4" *ngIf="quizId==5; else underConstruction">
     <div class="text-center">
       <p>{{quizName}}</p>
       <div class="row">
         <div class="col-md-8 offset-md-2 col-sm-12">
           <p *ngFor="let examType of examTypes">
             <button type="button" class="btn btn-sm sht btn-block" (click)="selectExamType(examType.examTypeID)">
-              {{examType.examTypeName}} {{examType.examTypeID}}              
+              {{examType.examTypeName}}              
             </button>
           </p>
         </div>
       </div>
     </div>
   </div>
+  <ng-template #underConstruction>
+    <div class="col-md-8 offset-md-2 blurred" *ngIf="inited">
+      <div class="text-center ">
+          <h4>{{quizName}}</h4>
+          <p>թեստը գտնվում է մշակման փուլում</p>
+          <p>Խնդրում ենք վերադառնալ ավելի ուշ</p>
+      </div>
+    </div>
+    </ng-template>
 </div>`
 })
-export class ExamTypesComponent implements OnInit, AfterViewInit {
+export class ExamTypesComponent implements OnInit {
   //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
   //Add 'implements AfterViewInit' to the class.
   
-
+  private inited: boolean = false;
   private examTypeSub;
   private examTypes: ExamType[] = [];
   private quizId;
@@ -38,19 +47,29 @@ export class ExamTypesComponent implements OnInit, AfterViewInit {
     private router: Router,
     private api: APIService
   ) {
-    /* TODO: this should be removed after bug fix */
-    /*
-      this.api.getAllExamTypes().subscribe((data: ExamType[]) => {
-        this.examTypes = data;
-      });
-    */
+    this.examTypeSub = this.route.queryParams.subscribe(params => {
+      this.inited = false;
+      this.quizId = params['quizId'] || 0;
+      this.quizName = params['quizName'] || '';
+      this.link = params['link'] || '/';
 
-    if (this.examTypes.length <= 0) {
-      this.examTypes = [
-        { "examTypeID": 1, "examTypeName": "Ավարտական" }, 
-        { "examTypeID": 2, "examTypeName": "Միասնական" }
-      ];
-    }
+      /* TODO: this should be removed after bug fix */
+      /*
+        this.api.getAllExamTypes().subscribe((data: ExamType[]) => {
+          this.examTypes = data;
+        });
+      */
+
+      if (this.examTypes.length <= 0) {
+        this.examTypes = [
+          { "examTypeID": 1, "examTypeName": "Ավարտական" },
+          { "examTypeID": 2, "examTypeName": "Միասնական" }
+        ];
+      }
+      this.inited = true;
+    });
+
+    
   }
 
   selectExamType(examTypeId: number) {
@@ -59,20 +78,7 @@ export class ExamTypesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.examTypeSub = this.route.queryParams.subscribe(params => {
-      this.quizId = params['quizId'] || 0;
-      this.quizName = params['quizName'] || '';
-      this.link = params['link'] || '/';
-      console.log("ExamType component", this.quizId, this.quizName, this.link);
-      // if (!this.examType) {
-      //   // this.router.navigate(['product-list'], { queryParams: { page: this.page + 1 } });
-      //   this.router.navigate(['chooseExamType'], { queryParams: { page: 'stores' } });
-      // }
-    });
-
-  }
-
-  ngAfterViewInit(){
+    
 
   }
 

@@ -9,7 +9,8 @@
 // }
 
 export interface Question {
-    correctAnswer: number,
+    questionTypeID: number,
+    answerTypeID: number,
     id: number,
     questionText: string,
     quizID: number,
@@ -37,6 +38,21 @@ export class Quiz {
     questionTypes: null; 
     answerTypes: null;
     questions: null;
+}
+
+export interface AnswerType {
+    "id": number,
+    "quizID": number,
+    "questionTypeID": number,
+    "quizName": String,
+    "questionTypeName": String,
+    "answerTypeName": String,
+    "description" : {
+        "type" : String,
+        "count": number,
+        "correctCount": number,
+        "rows": number
+    } 
 }
 
 

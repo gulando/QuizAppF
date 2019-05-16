@@ -2,7 +2,7 @@
     <app-exam [(examStarted)]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
 </div>
 <ng-template #chooseQuizThemes>
-    <div *ngIf="quizThemes.length>0" class="blurred">
+    <div *ngIf="quizThemes.length>0; else underConstruction" class="blurred">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4 offset-md-1">
@@ -33,4 +33,15 @@
             </div>
         </div>
     </div>
+    <ng-template #underConstruction>
+        <div *ngIf="inited" class="row">
+            <div class="col-md-8 offset-md-2 blurred">
+                <div class="text-center">
+                    <h4>{{quizName}}</h4>
+                    <p>շտեմարանը գտնվում է մշակման փուլում</p>
+                    <p>Խնդրում ենք վերադառնալ ավելի ուշ</p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
 </ng-template>

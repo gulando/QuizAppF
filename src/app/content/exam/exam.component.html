@@ -52,8 +52,8 @@
         </div>
         Լրացվել է {{nbAnswered || 0}}<br />
         Մնացել է {{(questions.length - nbAnswered) || 0 }}<br />
-        Ճիշտ է 0<br />
-        Սխալ է 0<br />
+        Ճիշտ է {{nbCorrectAnswers}}<br />
+        Սխալ է {{ nbAnswered - nbCorrectAnswers}}<br />
         <br />
         <button (click)="finishExam()" type="button" class="btn btn-sm sht btn-secondary">ԱՎԱՐՏԵԼ</button>
 
@@ -69,19 +69,19 @@
             <li><span class="num">{{(questions.length) || 0 }}</span><span class="txt">Հարց</span>
             <li><span class="num">{{nbAnswered || 0}}</span><span class="txt">Լրացվել է</span>
             <li><span class="num">{{(questions.length - nbAnswered) || 0 }}</span><span class="txt">Չի լրացվել</span>
-            <li><span class="num">4</span><span class="txt">Ճիշտ է</span>
-            <li><span class="num">4</span><span class="txt">Սխալ է</span>
-            <li><span class="num">4</span><span class="txt">Ընդամենը միավոր</span>
-            <li><span class="num">4</span><span class="txt">Չհավաքված միավոր</span>
+            <li><span class="num">{{nbCorrectAnswers}}</span><span class="txt">Ճիշտ է</span>
+            <li><span class="num">{{ nbAnswered - nbCorrectAnswers}}</span><span class="txt">Սխալ է</span>
+            <li><span class="num">{{nbCorrectAnswers}}</span><span class="txt">Ընդամենը միավոր</span>
+            <li><span class="num">{{ nbAnswered - nbCorrectAnswers}}</span><span class="txt">Չհավաքված միավոր</span>
           </ul>
           <br/><br />
           <div style="width:200px; margin:auto;">
             <button type="button" class="btn btn-sm sht btn-block" (click)="startExam()">
               Սկսել կրկին
             </button>
-            <button type="button" class="btn btn-sm sht btn-block" (click)="showErrors()">
+            <!-- <button type="button" class="btn btn-sm sht btn-block" (click)="showErrors()">
               Ցուցադրել սխալները
-            </button>
+            </button> -->
           </div>
           
         </div>

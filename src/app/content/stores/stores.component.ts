@@ -12,7 +12,7 @@ const link = "stores";
 })
 export class StoresComponent implements OnInit {
   private quizSub;
-
+  private inited = false;
   private examStarted = false;
   private quizId = 0;
   private quizThemeIDs = '';
@@ -25,38 +25,43 @@ export class StoresComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private api : APIService
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.quizSub = this.route.queryParams.subscribe(params => {
       this.quizId = params['quizId'] || 0;
       this.quizName = params['quizName'] || '';
-    });
+      this.inited = false;
+      this.api.getQuizThemeByID(this.quizId).subscribe(
+        (data: QuizTheme[]) => {
+          this.quizThemes = data || [];
+          if (!this.quizThemes) {
+            // Something bad happened
+          }
+          this.quizThemes.map((el) => {
+            this.quizThemeCheckboxes[el.id] = false;
+          });
+          this.inited = true;
+        },
+        (error) => {
+          this.quizThemes = [
+            { "id": 7, "quizID": 5, "quizThemeName": "Հնչյունաբանություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 8, "quizID": 5, "quizThemeName": "Բառագիտություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 9, "quizID": 5, "quizThemeName": "Ձևաբանություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 10, "quizID": 5, "quizThemeName": "Շարահյուսություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 11, "quizID": 5, "quizThemeName": "Կետադրություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 12, "quizID": 5, "quizThemeName": "Կապակցված խոսք", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 13, "quizID": 5, "quizThemeName": "Ոճագիտություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
+            { "id": 14, "quizID": 5, "quizThemeName": "Ընդհանուր գիտելիքներ", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 15, "quizID": 5, "quizThemeName": "Գրականություն", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 16, "quizID": 5, "quizThemeName": "Պնդումների փունջ", "quizName": "Հայոց լեզու և հայ գրականություն" }
+          ];
 
-    this.api.getQuizThemeByID(this.quizId).subscribe(
-      (data: QuizTheme[]) => {
-        this.quizThemes = data;
-        if (!this.quizThemes) {
-          // Something bad happened
+          this.inited = true;
         }
-        this.quizThemes.map((el) => {
-          this.quizThemeCheckboxes[el.id] = false;
-        });
-      },
-      (error) => {
-        this.quizThemes = [
-          { "id": 7, "quizID": 5, "quizThemeName": "Հնչյունաբանություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 8, "quizID": 5, "quizThemeName": "Բառագիտություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 9, "quizID": 5, "quizThemeName": "Ձևաբանություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 10, "quizID": 5, "quizThemeName": "Շարահյուսություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 11, "quizID": 5, "quizThemeName": "Կետադրություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 12, "quizID": 5, "quizThemeName": "Կապակցված խոսք", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 13, "quizID": 5, "quizThemeName": "Ոճագիտություն", "quizName": "Հայոց լեզու և հայ գրականություն" },
-          { "id": 14, "quizID": 5, "quizThemeName": "Ընդհանուր գիտելիքներ", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 15, "quizID": 5, "quizThemeName": "Գրականություն", "quizName": "Հայոց լեզու և հայ գրականություն" }, { "id": 16, "quizID": 5, "quizThemeName": "Պնդումների փունջ", "quizName": "Հայոց լեզու և հայ գրականություն" }
-        ];
-        
-      }
-    );
+      );
+
+    });
+  }
+
+  ngOnInit() {
+
   }
 
   selectAll(ev) {
