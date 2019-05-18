@@ -12,18 +12,14 @@ import { FormControl, FormControlName } from '@angular/forms';
 export class ExamComponent implements OnInit {
   questions: Question[] = [];
   examResults: object = {};
-  currentQuestion = 0;
+  curQuest = 0;
   currentAnswer:boolean = false;
+  curAnsType:number = 0;
   nbCorrectAnswers = 0;
   nbAnswered = 0;
   allAnswerTypes: AnswerType[] = [];
 
-  answerTypes = {
-    "1": [false, false, false, false],
-    "2": [],
-    "3": [],
-    "4": []
-  };
+  answerTypes = [];
   @Input() quizId: number;
   @Input() quizThemeIDs: string = "";
   @Input() examStarted: boolean;
@@ -32,10 +28,12 @@ export class ExamComponent implements OnInit {
   constructor(
     private api: APIService
   ) {
+    
     /* TODO: Here should be api call to getAllAnswerTypes, hardcodding for now */
     this.api.getAllAnswerTypes().subscribe(
       (data) => {
         this.allAnswerTypes = data;
+        
         this.allAnswerTypes.map((el,i) => {
           switch (i) {
             case 0: // ԸՆՏՐՈՎԻ ՊԱՏԱՍԽԱՆՈՂ ԱՌԱՋԱԴՐԱՆՔՆԵՐ
@@ -48,13 +46,13 @@ export class ExamComponent implements OnInit {
               break;
             case 1: // ԿԱՐՃ ՊԱՏԱՍԽԱՆՈՎ ԱՌԱՋԱԴՐԱՆՔՆԵՐ, 1-ԻՆ ՏԵՍԱԿ
               el.description = {
-                type: "input",
+                type: "number",
                 count: 1,
                 correctCount: 1,
                 rows: 1
               }
               break;
-            case 3: // ԿԱՐՃ ՊԱՏԱՍԽԱՆՈՎ ԱՌԱՋԱԴՐԱՆՔՆԵՐ, 2-ՐԴ ՏԵՍԱԿ
+            case 2: // ԿԱՐՃ ՊԱՏԱՍԽԱՆՈՎ ԱՌԱՋԱԴՐԱՆՔՆԵՐ, 2-ՐԴ ՏԵՍԱԿ
               el.description = {
                 type: "checkbox",
                 count: 9,
@@ -62,7 +60,7 @@ export class ExamComponent implements OnInit {
                 rows: 1
               }
               break;
-            case 4: // ՊՆԴՈՒՄՆԵՐԻ ՓՈՒՆՋ
+            case 3: // ՊՆԴՈՒՄՆԵՐԻ ՓՈՒՆՋ
               el.description = {
                 type: "checkbox",
                 count: 6,
@@ -74,7 +72,7 @@ export class ExamComponent implements OnInit {
               break;
           }
         });
-        console.log(this.allAnswerTypes);
+        this.resetAnswers();
       }
     )
   }
@@ -143,11 +141,16 @@ export class ExamComponent implements OnInit {
   }
 
   nextQuestion(){
-    if(this.currentQuestion < this.questions.length-1) {
+    if(this.curQuest < this.questions.length-1) {
       // Checking if the answer is confirmed
-      if (this.examResults[this.questions[this.currentQuestion].id]){
-        this.answerTypes[1] = [false, false, false, false];
-        this.currentQuestion++;
+      if (this.examResults[this.questions[this.curQuest].id]){
+        // this.answerTypes[0] = [false, false, false, false];
+        this.resetAnswers();
+        this.curQuest++;
+        /* TODO: This is an hardcode, should be replaced */
+      
+        this.curAnsType = Math.floor(Math.random() * Math.floor(3));
+        console.log(this.curAnsType );
       } else {
         // If question anser is not confirmed, we can't go forward
       }
@@ -155,15 +158,36 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  selectAnswer(ev, answer:number) {
-    this.answerTypes[1][answer] = ev.target.checked;
+  selectAnswer(ev, answer:number, row:number = 0, answerType: number = 0) {
+    this.answerTypes[answerType][answer] = ev.target.checked;
   }
 
   confirmAnswer(answerId: number) {
-    if (!this.examResults[this.questions[this.currentQuestion].id]) {
-      this.examResults[this.questions[this.currentQuestion].id] = this.answerTypes[1];
+    if (!this.examResults[this.questions[this.curQuest].id]) {
+      let answer: any = '';
+      switch (this.curAnsType) {
+        //case 0:
+        // Same as default case  
+        //break;
+        case 1:
+          answer = this.answerTypes[this.curAnsType];
+          break;
+        //case 2:
+        // Same as default case
+        //  break;
+        case 3:
+
+          break;
+        default:
+          answer = this.answerTypes[this.curAnsType].map((x, i) => { 
+            if (x) return i+1; 
+          }).filter(x => x != undefined).join();
+          break;
+      }
+      this.examResults[this.questions[this.curQuest].id] = answer;
+      
       this.nbAnswered++;
-      this.api.isAnswerCorrect(this.questions[this.currentQuestion].id).subscribe(
+      this.api.isAnswerCorrect(this.questions[this.curQuest].id).subscribe(
         (data) => {
           
           /* TODO: should be fixed when the back-end part is ready 
@@ -183,6 +207,15 @@ export class ExamComponent implements OnInit {
     
   }
 
+  makeArray(n:number = 0, value:any = false){
+    if(value == 'range'){
+      return Array.from(Array(n).keys())
+    } else {
+      return Array(n).fill(value, 0);
+    }
+  }
+  
+
   saveAnser(answerId: number) {
     console.log(answerId);
   }
@@ -192,15 +225,19 @@ export class ExamComponent implements OnInit {
     this.examFinished = false;
     this.examStarted = true;
     this.examResults = {};
-    this.currentQuestion = 0;
+    this.curQuest = 0;
     this.nbAnswered = 0;
-    this.answerTypes = {
-      "1": [false, false, false, false],
-      "2": [],
-      "3": [],
-      "4": []
-    };
+    
 
+  }
+
+  resetAnswers() {
+    this.answerTypes = [
+      this.makeArray(this.allAnswerTypes[0].description.count),
+      "",
+      this.makeArray(this.allAnswerTypes[2].description.count),
+      []
+    ];
   }
 
   finishExam(){
