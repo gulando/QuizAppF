@@ -1,3 +1,4 @@
+
 <div *ngIf="examStarted && questions.length>0" class="blurred">
   <div class="container">
     <div class="row exam">
@@ -23,34 +24,49 @@
           <button (click)="saveAnswer()" type="button" class="btn btn-sm sht btn-secondary"
             style="display: none">ՊԱՀՊԱՆԵԼ</button>
         </div>
-        <div class="answers">
-          <br />
-          <div *ngFor="let row of makeArray(allAnswerTypes[curAnsType].description.rows)" class="row">
-            <div [ngSwitch]="curAnsType" class="col-md-12">
-              <div *ngSwitchCase="1">
-                <input type='{{allAnswerTypes[curAnsType].description.type}}' length="2" maxlength="2"
-                  [disabled]="examResults[questions[curQuest].id]" [(ngModel)]="answerTypes[1]" title="Answer" />
-              </div>
-              <div *ngSwitchCase="3">
-                <ol class="answerType_{{curAnsType}}">
-                  <li *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">
-                    <input type='{{allAnswerTypes[curAnsType].description.type}}'
-                      [disabled]="examResults[questions[curQuest].id]" (change)="selectAnswer($event, i,row,curAnsType)"
-                      [(ngModel)]="answerTypes[curAnsType][i]" title="Answer {{i+1}}" />
-                  </li>
-                </ol>
-              </div>
-              <div *ngSwitchDefault>
-                <ol class="answerType_{{curAnsType}}">
-                  <li *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">
-                    <input type='{{allAnswerTypes[curAnsType].description.type}}'
-                      [disabled]="examResults[questions[curQuest].id]" (change)="selectAnswer($event, i,row,curAnsType)"
-                      [(ngModel)]="answerTypes[curAnsType][i]" title="Answer {{i+1}}" />
-                  </li>
-                </ol>
-              </div>
+        <div class="answers" *ngIf="allAnswerTypes[curAnsType]">
+          <form ngForm [ngSwitch]="curAnsType">
+            <div *ngSwitchCase="0">
+              <table>
+                <tbody>
+                  <tr *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">
+                    <th>{{i+1}}&nbsp;</th>
+                    <td>
+                      <input type='{{allAnswerTypes[curAnsType].description.type}}' name="{{curAnsType}}_{{row}}_{{i}}"
+                        [disabled]="examResults[questions[curQuest].id]" [checked]="answerTypes[curAnsType][0][i]"
+                        (change)="selectAnswer($event, i,curAnsType,0)" title="Answer {{i+1}}" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
+            <div *ngSwitchCase="1">
+              <input class="answerType_{{curAnsType}}" name="answerType_{{curAnsType}}"
+                type='{{allAnswerTypes[curAnsType].description.type}}' length="2" maxlength="2"
+                [disabled]="examResults[questions[curQuest].id]" [(ngModel)]="answerTypes[curAnsType]" title="Answer" />
+            </div>
+            <!-- 2 and 3 answerTypes -->
+            <div *ngSwitchDefault> 
+              <table>
+                <thead>
+                  <tr>
+                    <th *ngIf="curAnsType==3">&nbsp;</th>
+                    <th *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">{{i+1}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of makeArray(allAnswerTypes[curAnsType].description.rows, 'range')">
+                    <td *ngIf="curAnsType==3">{{labels[row]}}</td>
+                    <td *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">
+                      <input type='{{allAnswerTypes[curAnsType].description.type}}' [disabled]="examResults[questions[curQuest].id]"
+                        [checked]="answerTypes[curAnsType][row][i]" (change)="selectAnswer($event, i,curAnsType, row)"
+                        title="Answer {{i+1}}" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
         </div>
         Լրացվել է {{nbAnswered || 0}}<br />
         Մնացել է {{(questions.length - nbAnswered) || 0 }}<br />
