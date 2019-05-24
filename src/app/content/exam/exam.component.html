@@ -1,12 +1,10 @@
 <div *ngIf="!examFinished" class="examMain blurred">
   <div class="container">
-    <ngx-ui-loader [loaderId]="'exam_loader'" [text]="'Հարցերը բեռնվում են...'"></ngx-ui-loader>
+    <ngx-ui-loader [loaderId]="'exam_loader'" blur="10" text='Հարցերը բեռնվում են...'></ngx-ui-loader>
     <div class="row exam" *ngIf="examStarted && questions.length>0" >
       <div class="col-md-8 col-sm-8">
         <div class="question">
           {{questions[curQuest].questionText }}
-          <br />
-          {{examResults |json }}
         </div>
       </div>
       <div class="col-md-4 col-sm-4 text-center" [ngClass]="{
@@ -29,10 +27,10 @@
             <div *ngSwitchCase="0">
               <table>
                 <tbody>
-                  <tr *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">
+                  <tr *ngFor="let i of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.count, 'range')">
                     <th>{{i+1}}&nbsp;</th>
                     <td>
-                      <input type='{{allAnswerTypes[curAnsType].description.type}}' name="{{curAnsType}}_{{row}}_{{i}}"
+                      <input type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' name="{{curAnsType}}_{{row}}_{{i}}"
                         [disabled]="examResults[questions[curQuest].id]" [checked]="answerTypes[curAnsType][0][i]"
                         (change)="selectAnswer($event, i,curAnsType,0)" title="Answer {{i+1}}" />
                     </td>
@@ -42,23 +40,23 @@
             </div>
             <div *ngSwitchCase="1">
               <input class="answerType_{{curAnsType}}" name="answerType_{{curAnsType}}"
-                type='{{allAnswerTypes[curAnsType].description.type}}' length="2" maxlength="2"
+                type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' length="2" maxlength="2"
                 [disabled]="examResults[questions[curQuest].id]" [(ngModel)]="answerTypes[curAnsType]" title="Answer" />
             </div>
             <!-- 2 and 3 answerTypes -->
-            <div *ngSwitchDefault> 
+            <div *ngSwitchDefault>
               <table>
                 <thead>
                   <tr>
                     <th *ngIf="curAnsType==3">&nbsp;</th>
-                    <th *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">{{i+1}}</th>
+                    <th *ngFor="let i of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.count, 'range')">{{i+1}}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let row of makeArray(allAnswerTypes[curAnsType].description.rows, 'range')">
+                  <tr *ngFor="let row of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.rowCount, 'range')">
                     <td *ngIf="curAnsType==3">{{labels[row]}}</td>
-                    <td *ngFor="let i of makeArray(allAnswerTypes[curAnsType].description.count, 'range')">
-                      <input type='{{allAnswerTypes[curAnsType].description.type}}' [disabled]="examResults[questions[curQuest].id]"
+                    <td *ngFor="let i of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.count, 'range')">
+                      <input type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' [disabled]="examResults[questions[curQuest].id]"
                         [checked]="answerTypes[curAnsType][row][i]" (change)="selectAnswer($event, i,curAnsType, row)"
                         title="Answer {{i+1}}" />
                     </td>
@@ -89,7 +87,7 @@
           <li><span class="num">{{(questions.length - nbAnswered) || 0 }}</span><span class="txt">Չի լրացվել</span>
           <li><span class="num">{{nbCorrectAnswers}}</span><span class="txt">Ճիշտ է</span>
           <li><span class="num">{{ nbAnswered - nbCorrectAnswers}}</span><span class="txt">Սխալ է</span>
-          <li><span class="num">{{nbCorrectAnswers}}</span><span class="txt">Ընդամենը միավոր</span>
+          <li><span class="num">{{ nbUnits }}</span><span class="txt">Ընդամենը միավոր</span>
           <li><span class="num">{{ nbAnswered - nbCorrectAnswers}}</span><span class="txt">Չհավաքված միավոր</span>
         </ul>
         <br /><br />

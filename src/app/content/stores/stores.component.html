@@ -4,6 +4,7 @@
 <ng-template #chooseQuizThemes>
     <div *ngIf="quizThemes.length>0; else underConstruction" class="blurred">
         <div class="container">
+            <ngx-ui-loader loaderId="stores_loader" text='Թեմաները բեռնվում են․․․'></ngx-ui-loader>
             <div class="row">
                 <div class="col-md-4 col-sm-4 offset-md-1">
                     <ul>

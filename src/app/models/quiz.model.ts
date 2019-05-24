@@ -27,7 +27,7 @@ export interface QuizTheme {
 }
 
 export interface ExamType {
-    examTypeID: number,
+    id: number,
     examTypeName: String
 }
 
@@ -47,14 +47,13 @@ export interface AnswerType {
     "quizName": String,
     "questionTypeName": String,
     "answerTypeName": String,
-    "description" : {
+    "answerTypeConfiguration" : {
         "type" : String,
         "count": number,
         "correctCount": number,
-        "rows": number
+        "rowCount": number
     } 
 }
-
 
 // public class QuizData { 
 //     public int ID { get; set; }        

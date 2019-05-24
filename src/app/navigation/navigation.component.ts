@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../services/api.service';
 import { Quiz } from '../models/quiz.model';
-
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-navigation',
@@ -19,9 +19,13 @@ export class NavigationComponent implements OnInit {
   submenuHided = false;
   selectedItem:String = '';
 
-  constructor(private api: APIService) { }
+  constructor(
+    private api: APIService,
+    private ngxLoader: NgxUiLoaderService
+    ) { }
 
   ngOnInit() {
+    this.ngxLoader.start();
     this.api.getQuizes().subscribe((data: Quiz[]) => {
       this.quizes = data;
       
@@ -44,5 +48,9 @@ export class NavigationComponent implements OnInit {
   }
 
   hideSubmenu() {this.submenuHided = true;}
+
+  ngAfterViewInit(): void {
+    this.ngxLoader.stop();
+  }
 
 }

@@ -33,4 +33,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 List of APIs
-1) http://gulando-002-site1.dtempurl.com/api/quiz/GetAllQuizes
+1) http://api.shtemaran.am/api/quiz/GetAllQuizes

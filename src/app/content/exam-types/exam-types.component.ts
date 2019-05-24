@@ -12,7 +12,7 @@ import { APIService } from '../../services/api.service';
       <div class="row">
         <div class="col-md-8 offset-md-2 col-sm-12">
           <p *ngFor="let examType of examTypes">
-            <button type="button" class="btn btn-sm sht btn-block" (click)="selectExamType(examType.examTypeID)">
+            <button type="button" class="btn btn-sm sht btn-block" (click)="selectExamType(examType.id)">
               {{examType.examTypeName}}              
             </button>
           </p>
@@ -53,19 +53,16 @@ export class ExamTypesComponent implements OnInit {
       this.quizName = params['quizName'] || '';
       this.link = params['link'] || '/';
 
-      /* TODO: this should be removed after bug fix */
-      /*
         this.api.getAllExamTypes().subscribe((data: ExamType[]) => {
           this.examTypes = data;
         });
-      */
-
-      if (this.examTypes.length <= 0) {
-        this.examTypes = [
-          { "examTypeID": 1, "examTypeName": "Ավարտական" },
-          { "examTypeID": 2, "examTypeName": "Միասնական" }
-        ];
-      }
+      
+      // if (this.examTypes.length <= 0) {
+      //   this.examTypes = [
+      //     { "id": 1, "examTypeName": "Ավարտական" },
+      //     { "id": 2, "examTypeName": "Միասնական" }
+      //   ];
+      // }
       this.inited = true;
     });
 
@@ -73,7 +70,6 @@ export class ExamTypesComponent implements OnInit {
   }
 
   selectExamType(examTypeId: number) {
-    console.log(this.link, { quizId: this.quizId, examType: examTypeId, quizName: this.quizName});
     this.router.navigate([this.link], { queryParams: { quizId: this.quizId, examType: examTypeId, quizName: this.quizName }, skipLocationChange: true });
   }
 

@@ -23,12 +23,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: "#D4D4DD", // "#140700", // Foreground (icon) color
   //bgsPosition: POSITION.bottomCenter,
   // bgsSize: 40,
-  blur: 150,
+  blur: 15,
   //bgsType: SPINNER.cubeGrid, // background spinner type
   fgsType: SPINNER.cubeGrid, // foreground spinner type
-  pbColor: "white", // Progress bar color
-  pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
-  pbThickness: 3, // progress bar thickness
+  pbColor: "#D4D4DD", // Progress bar color
+  //pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+  pbThickness: 1, // progress bar thickness
 };
 
 @NgModule({
@@ -54,8 +54,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // If you need to show background spinner, do as follow:
     // NgxUiLoaderRouterModule.forRoot({ showForeground: false })
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderRouterModule,
-    // NgxUiLoaderHttpModule.forRoot({ showForeground: true, loaderId: 'exam_loader' })
+    //NgxUiLoaderRouterModule.forRoot(),
+    //NgxUiLoaderHttpModule.forRoot({ showForeground: true, exclude: ['/exam'] })
   ],
   providers: [HttpErrorInterceptorProvider],
   bootstrap: [AppComponent]

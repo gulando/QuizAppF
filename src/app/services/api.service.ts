@@ -48,7 +48,7 @@ export class APIService {
   }
 
   // /api/quiz / GetAllQuestionsByQuizThemes / 5 ? quizThemeIDs = 7 & quizThemeIDs=8"
-  getAllQuestionsByQuizThemes(quizId: number, quizThemesIDs:String) {
+  getAllQuestionsByQuizThemes(quizId: number, quizThemesIDs:string) {
     return this.http.get<Question[]>(`${this.api_url}/quiz/GetAllQuestionsByQuizThemes/${quizId}/?${quizThemesIDs}`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
@@ -57,8 +57,9 @@ export class APIService {
     return this.http.get(`${this.api_url}/getAccountSessions?account_id=${account_id}`, { responseType: 'json' });
   }
 
-  isAnswerCorrect(question_id: number) {
-    return this.http.get<boolean>(`${this.api_url}/quiz/IsAnswerCorrect/${question_id}`);
+  isAnswerCorrect(question_id: number, answersList:string) {
+    //http://api.shtemaran.am//api/question/IsAnswerCorrect/29?answers=4
+    return this.http.get<number>(`${this.api_url}/question/IsAnswerCorrect/${question_id}/?${answersList}`);
   }
 
   getAllAnswerTypes(){

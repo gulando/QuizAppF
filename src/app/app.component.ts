@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-//import { NgxUiLoaderService } from 'ngx-ui-loader';
-
 
 @Component({
   selector: 'app-root',
@@ -12,7 +10,6 @@ export class AppComponent {
   title = 'shtemaran';
   constructor(
     // private http: HttpClient,
-   // private ngxLoader: NgxUiLoaderService
     ) { }
 
   ngOnInit() {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { QuizTheme } from '../../models/quiz.model';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 const link = "stores";
 
@@ -24,9 +25,11 @@ export class StoresComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private api : APIService
+    private api : APIService,
+    private ngxLoader: NgxUiLoaderService
   ) {
     this.quizSub = this.route.queryParams.subscribe(params => {
+      this.ngxLoader.startLoader(link + '_loader');
       this.quizId = params['quizId'] || 0;
       this.quizName = params['quizName'] || '';
       this.inited = false;
@@ -54,14 +57,16 @@ export class StoresComponent implements OnInit {
           ];
 
           this.inited = true;
+          
         }
       );
-
+      this.ngxLoader.stopLoader(link + '_loader');
     });
   }
 
   ngOnInit() {
-
+    // this.ngxLoader.start();
+    // this.ngxLoader.startLoader(link + '_loader');
   }
 
   selectAll(ev) {
@@ -80,6 +85,11 @@ export class StoresComponent implements OnInit {
         return "&quizThemeIDs="+id;
       }
     }).join("");
+  }
+
+  ngAfterViewInit(): void {
+    // this.ngxLoader.stop();
+    // this.ngxLoader.stopLoader(link+'_loader');
   }
 
   ngOnDestroy() {

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_url: "http://gulando-002-site1.dtempurl.com/api/",
+  api_url: "http://api.shtemaran.am/api/",
 
   httpHeadersJSON: {
     "Content-Type": "application/json",
