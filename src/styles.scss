@@ -1,4 +1,7 @@
-/* Set a background image by replacing the URL below */
+$mainColor: #FFF;
+$white: #FFFFFF;
+$black: #000000;
+
 body {
     /* 1920x1080*/
     background: url('assets/images/shtemaran_background.jpg') no-repeat center center fixed;
@@ -21,7 +24,7 @@ body {
     text-transform: uppercase;
     text-align: center;
     font-size: 30px;
-    color: white;
+    color: $white;
     width: 1em;
 }
 
@@ -56,7 +59,7 @@ body {
 }
 
 h4 {
-    color: white;
+    color: $white;
 }
 
 
@@ -70,12 +73,12 @@ h4 {
 }
 
 p {
-    color: white;
+    color: $white;
 }
 
 button.sht {
-    background-color: white;
-    color:black;
+    background-color: $white;
+    color:$black;
 }
 
 .blurred {

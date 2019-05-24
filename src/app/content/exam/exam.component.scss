@@ -1,9 +1,20 @@
+$white:#FFFFFF;
+$red: #FD0000;
+$blue: #B790FC;
+$black: #000000;
+$gray: #D4D4DD;
+$mainColor: rgba(43, 40, 42,.9);
+
+.examMain {
+    min-height: 410px;
+}
+
 .exam {
-    color:white;
+    color:$white;
 }
 .question, .answers {
-    background: white;
-    color:black;
+    background: $white;
+    color:$black;
     border-radius: 20px;
     display: block;
     min-height: 200px;
@@ -25,7 +36,7 @@
 }
 
 .exam_res {
-    color: white;
+    color: $white;
     margin:auto;
     list-style: none;
     position: relative;
@@ -41,17 +52,6 @@
     position: absolute;
 }
 
-.correct {
-    background: #B790FC;
-    color:black;
-    opacity: 0.9;
-}
-
-.wrong {
-    background: #FD0000;
-    color:black;
-    opacity: 0.9
-}
 .answers table {
     text-align: center;
     margin:auto;
@@ -87,20 +87,53 @@
 	width: 22px;
 	left: 0;
 	top: 0;
-	-webkit-box-shadow: inset 0 1px 1px #D4D4DD, 0 1px 0 #D4D4DD;
-	-moz-box-shadow: inset 0 1px 1px #D4D4DD, 0 1px 0 #D4D4DD;
-	box-shadow: inset 0 1px 1px #D4D4DD, 0 1px 0 #D4D4DD;
-	background: #D4D4DD;
+	-webkit-box-shadow: inset 0 1px 1px $gray, 0 1px 0 $gray;
+	-moz-box-shadow: inset 0 1px 1px $gray, 0 1px 0 $gray;
+	box-shadow: inset 0 1px 1px $gray, 0 1px 0 $gray;
+	background: $gray;
 }
+
+
+
+
+// .answers input[type='checkbox']:after {
+//     -webkit-box-shadow: inset 0 1px 1px $red, 0 1px 0 $gray;
+// 	-moz-box-shadow: inset 0 1px 1px $red, 0 1px 0 $gray;
+// 	box-shadow: inset 0 1px 1px $red, 0 1px 0 $gray;
+// 	background: $red;
+// }
+
 //.answers input[type='checkbox']:hover:after, 
 .answers input[type='checkbox']:checked:after {
-    background: #D4D4DD;
+    background: $gray;
     font-size:22px;
 	content: '\00d7';
-	color: black;
+	color: $black;
 }
 
 // .answers input[type='checkbox']:checked:hover:after {
 // 	content: '';
 // }
+
+.correct button.confirm {
+    background: $blue;
+    color:$black;
+    opacity: 0.9;
+}
+
+.wrong button.confirm {
+    background: $red;
+    color:$black;
+    opacity: 0.9
+}
+
+.wrong input[type='checkbox']:checked:after, .correct input[type='number'] {
+    background: $red !important;
+    border:none;
+}
+
+.correct input[type='checkbox']:checked:after, .correct input[type='number'] {
+    background: $blue !important;
+    border:none;
+}
 

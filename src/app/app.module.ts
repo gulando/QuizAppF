@@ -15,6 +15,21 @@ import { UnderConstructionComponent } from './pages/under-construction.component
 import { ExamComponent } from './content/exam/exam.component';
 import { ErrorComponent } from './pages/error.component';
 import { HttpErrorInterceptorProvider } from './services/error.interceptor';
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderHttpModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  bgsColor: 'white',
+  overlayColor: "rgba(43, 40, 42, .9)",
+  fgsColor: "#D4D4DD", // "#140700", // Foreground (icon) color
+  //bgsPosition: POSITION.bottomCenter,
+  // bgsSize: 40,
+  blur: 150,
+  //bgsType: SPINNER.cubeGrid, // background spinner type
+  fgsType: SPINNER.cubeGrid, // foreground spinner type
+  pbColor: "white", // Progress bar color
+  pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+  pbThickness: 3, // progress bar thickness
+};
 
 @NgModule({
   declarations: [
@@ -34,7 +49,13 @@ import { HttpErrorInterceptorProvider } from './services/error.interceptor';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+ // import NgxUiLoaderRouterModule. By default, it will show foreground loader.
+    // If you need to show background spinner, do as follow:
+    // NgxUiLoaderRouterModule.forRoot({ showForeground: false })
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderRouterModule,
+    // NgxUiLoaderHttpModule.forRoot({ showForeground: true, loaderId: 'exam_loader' })
   ],
   providers: [HttpErrorInterceptorProvider],
   bootstrap: [AppComponent]

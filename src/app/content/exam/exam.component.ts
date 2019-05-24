@@ -3,7 +3,7 @@ import { APIService } from '../../services/api.service';
 import { Question, AnswerType } from '../../models/quiz.model';
 import { FormArray, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 // import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 
@@ -27,48 +27,11 @@ export class ExamComponent implements OnInit {
   @Input() quizThemeIDs: string = "";
   @Input() examStarted: boolean;
   examFinished: boolean = false;
-  @ViewChild('form') public answerForm: NgForm;
-
-  public myformGroup = new FormGroup({
-    "rows": new FormArray([
-      new FormArray([new FormControl(), new FormControl(), new FormControl()]),
-      new FormArray([new FormControl(), new FormControl(), new FormControl()]),
-      new FormArray([new FormControl(), new FormControl(), new FormControl()])
-    ])
-  });
-  
-
-//   <div[formGroup]="myGroup" >
-
-//   <div * ngFor="let city of cityArray.controls; index as i" >
-//     <input[formControlName]="i" >
-//       </div>
-//       < /div>
-//       < /div>
-
-// In your class:
-
-// this.cityArray = new FormArray([new FormControl('SF')]);
-// this.myGroup = new FormGroup({
-//   cities: this.cityArray
-// });
-
-  // for(const control of formArray.controls) {
-  //   if (control instanceof FormControl) {
-  //     console.log("Control is FormControl")
-  //   }
-  //   if (control instanceof FormGroup) {
-  //     console.log("Control is FormGroup");
-  //   }
-  //   if (control instanceof FormArray) {
-  //     console.log("control is FormArray")
-  //   }
-  // }
 
   constructor(
     private api: APIService,
+    private ngxLoader: NgxUiLoaderService
   ) {
-    console.log("myformGroup", this.myformGroup);
 
     /* TODO: Here should be api call to getAllAnswerTypes, hardcodding for now */
     this.api.getAllAnswerTypes().subscribe(
@@ -126,7 +89,7 @@ export class ExamComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.ngxLoader.startLoader('exam_loader');
     this.api.getAllQuestionsByQuizThemes(this.quizId, this.quizThemeIDs).subscribe(
       (data) => {
         //console.log(this.quizId, data);
@@ -184,6 +147,8 @@ export class ExamComponent implements OnInit {
             }
           ];
         }
+
+        this.ngxLoader.stopLoader('exam_loader');
       }
     );
   }
