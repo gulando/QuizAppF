@@ -15,7 +15,7 @@ export class TestsComponent implements OnInit, OnDestroy {
   private quizId = 0;
   private quizName = '';
   // private typeSub;
-  private examType = 0;
+  public examType = 0;
 
   constructor(
     private route: ActivatedRoute,

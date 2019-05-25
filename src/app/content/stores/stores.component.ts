@@ -14,11 +14,11 @@ const link = "stores";
 export class StoresComponent implements OnInit {
   private quizSub;
   private inited = false;
-  private examStarted = false;
-  private quizId = 0;
+  public examStarted = false;
+  public quizId = 0;
   private quizThemeIDs = '';
-  private quizName = '';
-  private quizThemes: QuizTheme[] = [];
+  public quizName = '';
+  public quizThemes: QuizTheme[] = [];
 
   private quizThemeCheckboxes = {};
   private selectAllText = 'Ընտրել թեման';

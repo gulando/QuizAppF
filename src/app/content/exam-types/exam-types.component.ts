@@ -38,7 +38,7 @@ export class ExamTypesComponent implements OnInit {
   private inited: boolean = false;
   private examTypeSub;
   private examTypes: ExamType[] = [];
-  private quizId;
+  public quizId;
   private quizName;
   private link;
   
