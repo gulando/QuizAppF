@@ -7,18 +7,18 @@
   <div class="row">
     <div class="col-md-2 d-sm-none d-xs-none d-md-block">
       <div class="logo">
-        <span class="first">Շ</span>տեմարան
+        <a routerLink='/'><span class="first">Շ</span></a>տեմարան
       </div>
     </div>
     <div class="col-md-10 col-sm-12">
-        <a class="navbar-brand" href="#"><span class="first">Շ</span>տեմարան</a>
+        <a class="navbar-brand" routerLink='/'><span class="first">Շ</span>տեմարան</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navToggle"
           aria-controls="navToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         
         <div class="collapse navbar-collapse" id="navToggle">
-          <ul class="navbar-nav mt-2 mt-lg-0" [ngStyle]="{'z-index': submenuHided ? '1' : '99' }">
+          <ul (clickOutside)="hideSubmenu()" class="navbar-nav mt-2 mt-lg-0" [ngStyle]="{'z-index': submenuHided ? '1' : '99' }">
             <li class="nav-item" [ngClass]="{'active': selectedItem == item.name }" *ngFor="let item of menu">
               <a *ngIf="item.link != 'statistics'" class="nav-link" (click)="listClick($event, item.name)">{{ item.name }}</a>
               <a *ngIf="item.link == 'statistics'" class="nav-link" (click)="listClick($event, item.name)" [routerLink]=[item.link] skipLocationChange routerLinkActive="active">{{ item.name }}</a>

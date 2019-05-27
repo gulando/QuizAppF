@@ -8,6 +8,12 @@
 //   ) { }
 // }
 
+export class Answer {
+    correctAnswer: any = 0;
+    maxScore: number = 0;
+    score: number = 0;
+}
+
 export interface Question {
     questionTypeID: number,
     answerTypeID: number,

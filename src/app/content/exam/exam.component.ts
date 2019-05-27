@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { APIService } from '../../services/api.service';
-import { Question, AnswerType } from '../../models/quiz.model';
+import { Question, AnswerType, Answer } from '../../models/quiz.model';
 // import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
@@ -13,20 +13,24 @@ export class ExamComponent implements OnInit {
   questions: Question[] = [];
   examResults: object = {};
   curQuest = 0;
-  currentAnswer:number = 0;
+  currentAnswer = new Answer;
   curAnsType:number = 0; // Contains the index of the answerType
   nbCorrectAnswers = 0;
   nbAnswered = 0;
-  nbUnits = 0;
+  nbScore = 0;
+  maxScore = 0;
   allAnswerTypes: AnswerType[] = [];
   labels = ['ՃԻՇՏ Է', 'ՍԽԱԼ Է', 'ՉԳԻՏԵՄ'];
   inputTypes= ['checkbox', 'input', 'checkbox', 'checkbox'];
   /* None = 0, CheckBox = 1, Input = 2, RadioGroup = 3 */
 
+  buttonText = 'ՀԱՍՏԱՏԵԼ';
+  answerClass = '';
   answerTypes = [];
   @Input() quizId: number;
   @Input() quizThemeIDs: string = "";
   @Input() examStarted: boolean;
+  @Input() examType: number = 0;
   examFinished: boolean = false;
 
   constructor( private api: APIService, private ngxLoader: NgxUiLoaderService ) {
@@ -54,13 +58,24 @@ export class ExamComponent implements OnInit {
 
   ngOnInit() {
     this.ngxLoader.startLoader('exam_loader');
-    this.api.getAllQuestionsByQuizThemes(this.quizId, this.quizThemeIDs).subscribe(
-      (data) => {
-        this.questions = data || [];
-        this.curAnsType = this.getIndex(this.questions[this.curQuest].answerTypeID);
-        this.ngxLoader.stopLoader('exam_loader');
-      }
-    );
+    if (this.examType > 0){ // We are called from tests
+      this.api.getAllQuestionsByExamType(this.quizId, this.examType).subscribe(
+        (data) => {
+          this.questions = data || [];
+          this.curAnsType = this.getIndex(this.questions[this.curQuest].answerTypeID);
+          this.ngxLoader.stopLoader('exam_loader');
+        }
+      );
+    } else { // We are called from "stores"
+      this.api.getAllQuestionsByQuizThemes(this.quizId, this.quizThemeIDs).subscribe(
+        (data) => {
+          this.questions = data || [];
+          this.curAnsType = this.getIndex(this.questions[this.curQuest].answerTypeID);
+          this.ngxLoader.stopLoader('exam_loader');
+        }
+      );
+    }
+    
   }
 
   nextQuestion(){
@@ -70,8 +85,13 @@ export class ExamComponent implements OnInit {
         this.resetAnswers();
         this.curQuest++;
         /* TODO: This is an hardcode, should be replaced */
-        //this.curAnsType = this.getIndex(this.questions[this.curQuest].answerTypeID);
-        this.curAnsType = Math.floor(Math.random() * Math.floor(4));
+        this.curAnsType = this.getIndex(this.questions[this.curQuest].answerTypeID);
+
+      if (!this.examResults[this.questions[this.curQuest].id]){
+          this.buttonText = 'ՀԱՍՏԱՏԵԼ';
+          this.answerClass = '';
+      }
+        //this.curAnsType = Math.floor(Math.random() * Math.floor(4));
 
      /* } else {
         // If question anser is not confirmed, we can't go forward
@@ -120,12 +140,23 @@ export class ExamComponent implements OnInit {
         (data) => {
           /* TODO: should be fixed when the back-end part is ready */
           this.currentAnswer = data;
-          this.currentAnswer = Math.floor(Math.random() * Math.floor(6));
+
+          //this.currentAnswer = Math.floor(Math.random() * Math.floor(6));
           //this.currentAnswer = Math.random() >= 0.5;
-          if (this.currentAnswer > 0 && this.curQuest < this.questions.length - 1) {
+          if (this.currentAnswer.score > 0 && this.curQuest < this.questions.length - 1) {
             this.nbCorrectAnswers++;
+            this.buttonText="Ճիշտ է";
+            this.answerClass = "correct";
+            // {
+            //   'correct': examResults[questions[curQuest].id] && currentAnswer.score > 0,
+            //     'wrong': examResults[questions[curQuest].id] && currentAnswer.score <= 0
+            // } "
+          } else {
+            this.buttonText = "Սխալ է";
+            this.answerClass = "wrong";
           }
-          this.nbUnits += this.currentAnswer;
+          this.nbScore += this.currentAnswer.score;
+          this.maxScore += this.currentAnswer.maxScore;
         }
       );
       // 
@@ -156,7 +187,7 @@ export class ExamComponent implements OnInit {
     }
   }
   
-  saveAnser(answerId: number) {
+  saveAnswer(answerId: number) {
     console.log(answerId);
   }
 
@@ -168,7 +199,8 @@ export class ExamComponent implements OnInit {
     this.curQuest = 0;
     this.nbAnswered = 0;
     this.nbCorrectAnswers = 0;
-    this.nbUnits = 0;
+    this.nbScore = 0;
+    this.maxScore = 0;
     this.resetAnswers();
   }
 

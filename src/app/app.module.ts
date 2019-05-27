@@ -16,6 +16,7 @@ import { ExamComponent } from './content/exam/exam.component';
 import { ErrorComponent } from './pages/error.component';
 import { HttpErrorInterceptorProvider } from './services/error.interceptor';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderHttpModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
+import { ClickOutsideDirective } from './services/clickOutside.Directive';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'white',
@@ -42,7 +43,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ExamTypesComponent,
     UnderConstructionComponent,
     ExamComponent,
-    ErrorComponent
+    ErrorComponent,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,

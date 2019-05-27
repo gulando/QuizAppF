@@ -20,13 +20,14 @@ export class TestsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    // private api: APIService
   ) { }
 
   ngOnInit() {
     this.quizSub = this.route.queryParams.subscribe(params => {
       this.quizId = params['quizId'] || 0;
       this.quizName = params['quizName'] || '';
+      this.examType = params['examType'] || 0;
+      console.log(this.examType);
 
       this.examType = params['examType'] || 0;
       if (!this.examType) {

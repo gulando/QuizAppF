@@ -1,8 +1,11 @@
+$white:white;
+$black:black;
+
 // .navbar .navbar-nav ․nav-item a {
-//     color: white;
+//     color: $white;
 // }
 .navbar {
-    color: white;
+    color: $white;
     align-items:normal;
     
 }
@@ -29,7 +32,7 @@
 }
 
 .navbar li.nav-item.active {
-    border: 1px solid white;
+    border: 1px solid $white;
     border-radius: 20px;
     background-color:rgba(43, 40, 42,.9);
     .submenu {
@@ -40,14 +43,20 @@
 .navbar li.nav-item ul li a {
     font-size: 10px;
     text-decoration: none;
-    color:white;
+    color:$white;
+}
+
+.logo a {
+    color:$white;
+}
+
+.logo a:hover {
+    text-decoration:none;
 }
 
 
-
-
 .navbar li.nav-item > a {
-    //color:white;
+    //color:$white;
     text-transform: uppercase;
     font-weight: bold;
     font-size:13px;

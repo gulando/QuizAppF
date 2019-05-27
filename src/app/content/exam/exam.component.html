@@ -3,20 +3,14 @@
     <ngx-ui-loader [loaderId]="'exam_loader'" blur="10" text='Հարցերը բեռնվում են...'></ngx-ui-loader>
     <div class="row exam" *ngIf="examStarted && questions.length>0" >
       <div class="col-md-8 col-sm-8">
-        <div class="question">
+        <pre class="question">
           {{questions[curQuest].questionText }}
-        </div>
+        </pre>
       </div>
-      <div class="col-md-4 col-sm-4 text-center" [ngClass]="{
-                'correct': examResults[questions[curQuest].id] && currentAnswer,
-                'wrong':   examResults[questions[curQuest].id] && !currentAnswer
-              }">
+      <div class="col-md-4 col-sm-4 text-center" [ngClass]="answerClass">
         <div class="exam_nav ">
           <button type="button" class="btn btn-sm sht btn-secondary confirm" [disabled]="examResults[questions[curQuest].id]" (click)="confirmAnswer()">
-            <span *ngIf="!examResults[questions[curQuest].id]">ՀԱՍՏԱՏԵԼ</span>
-            <span *ngIf="examResults[questions[curQuest].id] && currentAnswer">Ճիշտ է</span>
-            <span *ngIf="examResults[questions[curQuest].id] && !currentAnswer">Սխալ է</span>
-
+            <span>{{buttonText}}</span>
           </button>
           <button (click)="nextQuestion()" type="button" class="btn btn-sm sht btn-secondary">&#10152;</button>
           <button (click)="saveAnswer()" type="button" class="btn btn-sm sht btn-secondary"
@@ -87,8 +81,8 @@
           <li><span class="num">{{(questions.length - nbAnswered) || 0 }}</span><span class="txt">Չի լրացվել</span>
           <li><span class="num">{{nbCorrectAnswers}}</span><span class="txt">Ճիշտ է</span>
           <li><span class="num">{{ nbAnswered - nbCorrectAnswers}}</span><span class="txt">Սխալ է</span>
-          <li><span class="num">{{ nbUnits }}</span><span class="txt">Ընդամենը միավոր</span>
-          <li><span class="num">{{ nbAnswered - nbCorrectAnswers}}</span><span class="txt">Չհավաքված միավոր</span>
+          <li><span class="num">{{ nbScore }}</span><span class="txt">Ընդամենը միավոր</span>
+          <li><span class="num">{{ maxScore - nbScore}}</span><span class="txt">Չհավաքված միավոր</span>
         </ul>
         <br /><br />
         <div style="width:200px; margin:auto;">

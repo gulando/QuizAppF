@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { Quiz, ExamType, QuizTheme, Question, AnswerType } from '../models/quiz.model';
+import { Quiz, ExamType, QuizTheme, Question, AnswerType, Answer } from '../models/quiz.model';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -53,13 +53,18 @@ export class APIService {
       .pipe(catchError(this.handleError));
   }
 
+  getAllQuestionsByExamType(quizId: number, examType: number) {
+    return this.http.get<Question[]>(`${this.api_url}/quiz/GetAllQuestionsByExamType/${quizId}/${examType}`, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
   getAccountSessions(account_id: number) {
     return this.http.get(`${this.api_url}/getAccountSessions?account_id=${account_id}`, { responseType: 'json' });
   }
 
   isAnswerCorrect(question_id: number, answersList:string) {
     //http://api.shtemaran.am//api/question/IsAnswerCorrect/29?answers=4
-    return this.http.get<number>(`${this.api_url}/question/IsAnswerCorrect/${question_id}/?${answersList}`);
+    return this.http.get<Answer>(`${this.api_url}/question/IsAnswerCorrect/${question_id}/?${answersList}`);
   }
 
   getAllAnswerTypes(){
