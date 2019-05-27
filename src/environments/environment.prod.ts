@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
-  api_url: "http://api.shtemaran.am/api/",
+  api_url: "https://shtemaran.am/quizapi/api",
+  //api_url: "https://localhost:5000/api",
+  //api_url: "http://api.shtemaran.am/api/",
 
   httpHeadersJSON: {
     "Content-Type": "application/json",
