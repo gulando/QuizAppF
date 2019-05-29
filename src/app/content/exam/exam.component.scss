@@ -58,10 +58,11 @@ $mainColor: rgba(43, 40, 42,.9);
     margin:auto;
 }
 
-.answerType_1 {
+.answerType_1, .correct_answerType_1 {
     margin-top:15px;
     width:50px;
     text-align:center;
+    border: 1px solid $black;
 }
 
 .answers input[type='checkbox'] {
@@ -116,13 +117,16 @@ $mainColor: rgba(43, 40, 42,.9);
 // 	content: '';
 // }
 
-.correct button.confirm {
+.correct button.confirm, .correct .answerType_1, input.correct {
     background: $blue;
     color:$black;
     opacity: 0.9;
 }
+// input.correct, input.wrong {
+//     border:1px solid $black;
+// }
 
-.wrong button.confirm {
+.wrong button.confirm, .wrong .answerType_1, input.wrong {
     background: $red;
     color:$black;
     opacity: 0.9

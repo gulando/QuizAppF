@@ -27,15 +27,23 @@
                       <input type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' name="{{curAnsType}}_{{row}}_{{i}}"
                         [disabled]="examResults[questions[curQuest].id]" [checked]="answerTypes[curAnsType][0][i]"
                         (change)="selectAnswer($event, i,curAnsType,0)" title="Answer {{i+1}}" />
+                        
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div *ngSwitchCase="1">
+              <div *ngIf="currentAnswer.correctAnswer!=answerTypes[curAnsType] && examResults[questions[curQuest].id]">
+                <input class="correct correct_answerType_{{curAnsType}}" name="correct_answerType_{{curAnsType}}"
+                  type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' length="2" maxlength="2"
+                  disabled=true value="{{currentAnswer.correctAnswer}}" title="Correct Answer" />
+                <br/>
+              </div>
               <input class="answerType_{{curAnsType}}" name="answerType_{{curAnsType}}"
                 type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' length="2" maxlength="2"
                 [disabled]="examResults[questions[curQuest].id]" [(ngModel)]="answerTypes[curAnsType]" title="Answer" />
+              
             </div>
             <!-- 2 and 3 answerTypes -->
             <div *ngSwitchDefault>

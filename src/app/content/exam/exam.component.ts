@@ -87,24 +87,25 @@ export class ExamComponent implements OnInit {
   }
 
   nextQuestion(){
-    if(this.curQuest < this.questions.length-1) {
-      // Checking if the answer is confirmed
-      //if (this.examResults[this.questions[this.curQuest].id]){
+    // Checking if the answer is confirmed
+    if (!this.examResults[this.questions[this.curQuest].id]){
+      this.confirmAnswer();
+    } else {
+      if (this.curQuest < this.questions.length - 1) {
         this.resetAnswers();
         this.curQuest++;
         /* TODO: This is an hardcode, should be replaced */
         this.curAnsType = this.getIndex(this.questions[this.curQuest].answerTypeID);
 
-      if (!this.examResults[this.questions[this.curQuest].id]){
+        if (!this.examResults[this.questions[this.curQuest].id]) {
           this.buttonText = 'ՀԱՍՏԱՏԵԼ';
           this.answerClass = '';
-      }
+        }
         //this.curAnsType = Math.floor(Math.random() * Math.floor(4));
 
-     /* } else {
-        // If question anser is not confirmed, we can't go forward
-      }*/
+      }
     }
+    
   }
 
   selectAnswer(ev, answer: number, answerType: number = 0, row: number = undefined) {
@@ -115,7 +116,7 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  confirmAnswer(answerId: number) {
+  confirmAnswer() {
     let answersList = '';
     if (!this.examResults[this.questions[this.curQuest].id]) {
       let answer: any = '';
@@ -229,6 +230,7 @@ export class ExamComponent implements OnInit {
       this.makeArray(this.allAnswerTypes[2].answerTypeConfiguration.count, false, this.allAnswerTypes[2].answerTypeConfiguration.rowCount),
       this.makeArray(this.allAnswerTypes[3].answerTypeConfiguration.count,false,this.allAnswerTypes[3].answerTypeConfiguration.rowCount)
     ];
+    this.currentAnswer = new Answer;
   }
 
   finishExam(){
