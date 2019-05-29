@@ -28,7 +28,11 @@ $black:black;
         padding-inline-start: 0px;
         //margin: 8px 0px;
         display: none;
+    }
 }
+
+.navbar .row {
+    width:100%;
 }
 
 .navbar li.nav-item.active {

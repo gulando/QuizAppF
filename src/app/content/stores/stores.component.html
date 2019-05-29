@@ -1,8 +1,9 @@
+{{examStarted}}
 <div *ngIf="examStarted && quizThemes.length>0; else chooseQuizThemes">
-    <app-exam [(examStarted)]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
+    <app-exam (examFinish)="examFinishedChange($event)" [(examStarted)]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
 </div>
 <ng-template #chooseQuizThemes>
-    <div *ngIf="quizThemes.length>0; else underConstruction" class="blurred">
+    <div *ngIf="quizThemes.length>0 && quizId==5; else underConstruction" class="blurred">
         <div class="container">
             <ngx-ui-loader loaderId="stores_loader" text='Թեմաները բեռնվում են․․․'></ngx-ui-loader>
             <div class="row">

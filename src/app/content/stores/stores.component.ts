@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { QuizTheme } from '../../models/quiz.model';
@@ -11,10 +11,11 @@ const link = "stores";
   templateUrl: './stores.component.html',
   styleUrls: ['./stores.component.scss']
 })
-export class StoresComponent implements OnInit {
+export class StoresComponent implements OnInit, OnChanges {
   private quizSub;
   private inited = false;
   public examStarted = false;
+  public examFinished = false;
   public quizId = 0;
   private quizThemeIDs = '';
   public quizName = '';
@@ -22,17 +23,31 @@ export class StoresComponent implements OnInit {
 
   private quizThemeCheckboxes = {};
   private selectAllText = 'Ընտրել թեման';
+
+  examEventHander($event: any) {
+    this.examStarted = $event;
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private api : APIService,
     private ngxLoader: NgxUiLoaderService
   ) {
+    
+  }
+
+  ngOnInit() {
     this.quizSub = this.route.queryParams.subscribe(params => {
-      this.ngxLoader.startLoader(link + '_loader');
+      this.examStarted = false;
       this.quizId = params['quizId'] || 0;
       this.quizName = params['quizName'] || '';
       this.inited = false;
+
+      /* TODO: Hardcoding for now */
+      if (this.quizId == 5) {
+        this.ngxLoader.startLoader(link + '_loader');
+      }
       this.api.getQuizThemeByID(this.quizId).subscribe(
         (data: QuizTheme[]) => {
           this.quizThemes = data || [];
@@ -57,16 +72,23 @@ export class StoresComponent implements OnInit {
           ];
 
           this.inited = true;
-          
+
         }
       );
-      this.ngxLoader.stopLoader(link + '_loader');
+      if (this.quizId == 5) {
+        this.ngxLoader.stopLoader(link + '_loader');
+      }
     });
-  }
-
-  ngOnInit() {
     // this.ngxLoader.start();
     // this.ngxLoader.startLoader(link + '_loader');
+  }
+  ngOnChanges(): void {
+    console.log("ngOnchanges ");
+    
+  }
+
+  examFinishedChange($event){
+    this.examFinished = $event;
   }
 
   selectAll(ev) {

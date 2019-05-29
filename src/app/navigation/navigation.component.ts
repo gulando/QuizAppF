@@ -16,7 +16,7 @@ export class NavigationComponent implements OnInit {
     { name: 'Վիճակագրություն', link: 'statistics'}
   ];
   quizes: Quiz[] = [];
-  submenuHided = false;
+  submenuHided = true;
   selectedItem:String = '';
 
   constructor(
@@ -43,11 +43,13 @@ export class NavigationComponent implements OnInit {
   }
 
   listClick(event, newValue) {
-    this.submenuHided = false;
+    // this.submenuHided = false;
+    this.submenuHided = !this.submenuHided;
     this.selectedItem = newValue;
   }
 
   hideSubmenu() {this.submenuHided = true;}
+  //toggleSubmenu() { this.submenuHided = !this.submenuHided }
 
   ngAfterViewInit(): void {
     this.ngxLoader.stop();

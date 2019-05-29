@@ -2,8 +2,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark"> 
   <!-- sticky-top -->
   <div class="container">
-
-
   <div class="row">
     <div class="col-md-2 d-sm-none d-xs-none d-md-block">
       <div class="logo">
@@ -16,7 +14,6 @@
           aria-controls="navToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        
         <div class="collapse navbar-collapse" id="navToggle">
           <ul (clickOutside)="hideSubmenu()" class="navbar-nav mt-2 mt-lg-0" [ngStyle]="{'z-index': submenuHided ? '1' : '99' }">
             <li class="nav-item" [ngClass]="{'active': selectedItem == item.name }" *ngFor="let item of menu">

@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styles: []
 })
 
+
+
 export class AppComponent {
   title = 'shtemaran';
   constructor(
@@ -28,3 +30,4 @@ export class AppComponent {
     
   // }
 }
+

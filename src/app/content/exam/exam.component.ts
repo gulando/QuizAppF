@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { Question, AnswerType, Answer } from '../../models/quiz.model';
 // import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
@@ -31,9 +32,16 @@ export class ExamComponent implements OnInit {
   @Input() quizThemeIDs: string = "";
   @Input() examStarted: boolean;
   @Input() examType: number = 0;
-  examFinished: boolean = false;
+  @Output() examFinish = new EventEmitter<boolean>();
 
-  constructor( private api: APIService, private ngxLoader: NgxUiLoaderService ) {
+  examFinished : boolean = false;
+
+  constructor( 
+    private api: APIService, 
+    private ngxLoader: NgxUiLoaderService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.api.getAllAnswerTypes().subscribe(
       (data) => {
         this.allAnswerTypes = data || [];
@@ -169,6 +177,10 @@ export class ExamComponent implements OnInit {
     }
   }
 
+  home() {
+    this.router.navigate([], { skipLocationChange: true, relativeTo: this.route, queryParams: { time: new Date().getTime() }, queryParamsHandling: 'merge' });
+  }
+
   makeArray(n:number = 0, value:any = false, rows:number = undefined){
     let finalArray = [];
     let fakeRow = rows || 1;
@@ -188,12 +200,15 @@ export class ExamComponent implements OnInit {
   }
   
   saveAnswer(answerId: number) {
-    console.log(answerId);
+    // console.log(answerId);
   }
 
   startExam() {
     // Resetting all necessary params
+    this.buttonText = 'ՀԱՍՏԱՏԵԼ';
+    this.answerClass = '';
     this.examFinished = false;
+    this.examFinish.emit(false);
     this.examStarted = true;
     this.examResults = {};
     this.curQuest = 0;
@@ -218,7 +233,9 @@ export class ExamComponent implements OnInit {
 
   finishExam(){
     this.examFinished = true;
+    this.examFinish.emit(true);
     this.examStarted = false;
+
   }
 
   showErrors(){
