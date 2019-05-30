@@ -17,6 +17,7 @@ export class ExamComponent implements OnInit {
   currentAnswer = new Answer;
   curAnsType:number = 0; // Contains the index of the answerType
   nbCorrectAnswers = 0;
+  showCorrectAnswer: boolean = false;
   nbAnswered = 0;
   nbScore = 0;
   maxScore = 0;
@@ -100,6 +101,7 @@ export class ExamComponent implements OnInit {
         if (!this.examResults[this.questions[this.curQuest].id]) {
           this.buttonText = 'ՀԱՍՏԱՏԵԼ';
           this.answerClass = '';
+          this.showCorrectAnswer = false;
         }
         //this.curAnsType = Math.floor(Math.random() * Math.floor(4));
 
@@ -163,6 +165,7 @@ export class ExamComponent implements OnInit {
           } else {
             this.buttonText = "Սխալ է";
             this.answerClass = "wrong";
+            this.showCorrectAnswer = true;
           }
           this.nbScore += this.currentAnswer.score;
           this.maxScore += this.currentAnswer.maxScore;

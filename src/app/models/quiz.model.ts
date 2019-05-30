@@ -9,7 +9,7 @@
 // }
 
 export class Answer {
-    correctAnswer: any = 0;
+    correctAnswer: any = "";
     maxScore: number = 0;
     score: number = 0;
 }

@@ -24,7 +24,7 @@
                   <tr *ngFor="let i of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.count, 'range')">
                     <th>{{i+1}}&nbsp;</th>
                     <td>
-                      <input type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' name="{{curAnsType}}_{{row}}_{{i}}"
+                      <input [ngClass]="{'correct': currentAnswer.correctAnswer.split(',').indexOf((i+1).toString()) >=0 }" type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' name="{{curAnsType}}_{{row}}_{{i}}"
                         [disabled]="examResults[questions[curQuest].id]" [checked]="answerTypes[curAnsType][0][i]"
                         (change)="selectAnswer($event, i,curAnsType,0)" title="Answer {{i+1}}" />
                         
@@ -34,7 +34,7 @@
               </table>
             </div>
             <div *ngSwitchCase="1">
-              <div *ngIf="currentAnswer.correctAnswer!=answerTypes[curAnsType] && examResults[questions[curQuest].id]">
+              <div *ngIf="showCorrectAnswer">
                 <input class="correct correct_answerType_{{curAnsType}}" name="correct_answerType_{{curAnsType}}"
                   type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' length="2" maxlength="2"
                   disabled=true value="{{currentAnswer.correctAnswer}}" title="Correct Answer" />
@@ -58,7 +58,7 @@
                   <tr *ngFor="let row of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.rowCount, 'range')">
                     <td *ngIf="curAnsType==3">{{labels[row]}}</td>
                     <td *ngFor="let i of makeArray(allAnswerTypes[curAnsType].answerTypeConfiguration.count, 'range')">
-                      <input type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' [disabled]="examResults[questions[curQuest].id]"
+                      <input [ngClass]="{'correct': currentAnswer.correctAnswer.split(',').indexOf((i+ (allAnswerTypes[curAnsType].answerTypeConfiguration.count*row) +1).toString()) >=0 }" type='{{inputTypes[allAnswerTypes[curAnsType].answerTypeConfiguration.type-1]}}' [disabled]="examResults[questions[curQuest].id]"
                         [checked]="answerTypes[curAnsType][row][i]" (change)="selectAnswer($event, i,curAnsType, row)"
                         title="Answer {{i+1}}" />
                     </td>

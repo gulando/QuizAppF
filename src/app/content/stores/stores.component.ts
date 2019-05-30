@@ -21,8 +21,8 @@ export class StoresComponent implements OnInit, OnChanges {
   public quizName = '';
   public quizThemes: QuizTheme[] = [];
 
-  private quizThemeCheckboxes = {};
-  private selectAllText = 'Ընտրել թեման';
+  public quizThemeCheckboxes = {};
+  public selectAllText = 'Ընտրել թեման';
 
   examEventHander($event: any) {
     this.examStarted = $event;

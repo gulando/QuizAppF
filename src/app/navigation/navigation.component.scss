@@ -29,6 +29,11 @@ $black:black;
         //margin: 8px 0px;
         display: none;
     }
+    
+    .submenu a:active, .submenu a.active {
+        font-style: italic;
+        font-weight: bold;
+    }
 }
 
 .navbar .row {

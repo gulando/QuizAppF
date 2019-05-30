@@ -27,9 +27,7 @@ export class TestsComponent implements OnInit, OnDestroy {
       this.quizId = params['quizId'] || 0;
       this.quizName = params['quizName'] || '';
       this.examType = params['examType'] || 0;
-      console.log(this.examType);
 
-      this.examType = params['examType'] || 0;
       if (!this.examType) {
         this.router.navigate(['chooseExamType/'], {
           queryParams: {

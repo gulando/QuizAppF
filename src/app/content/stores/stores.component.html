@@ -1,4 +1,3 @@
-{{examStarted}}
 <div *ngIf="examStarted && quizThemes.length>0; else chooseQuizThemes">
     <app-exam (examFinish)="examFinishedChange($event)" [(examStarted)]="examStarted" [quizId]="quizId" [quizThemeIDs]="quizThemeIDs"></app-exam>
 </div>
