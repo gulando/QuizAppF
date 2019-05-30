@@ -148,6 +148,7 @@ $mainColor: rgba(43, 40, 42,.9);
 
 input[type='checkbox'].correct:after, .wrong input[type='checkbox'].correct:checked:after {
     background: $blue !important;
-    border:none !important;
+    // border:none !important;
+    border:1px solid $black !important;
 }
 

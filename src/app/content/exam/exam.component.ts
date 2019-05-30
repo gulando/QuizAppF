@@ -119,6 +119,7 @@ export class ExamComponent implements OnInit {
   }
 
   confirmAnswer() {
+    // !this.examResults[this.questions[this.curQuest].id]
     let answersList = '';
     if (!this.examResults[this.questions[this.curQuest].id]) {
       let answer: any = '';
@@ -133,15 +134,15 @@ export class ExamComponent implements OnInit {
       }
 
       if (typeof answer == "object" && answer.length > 1 ) {
-        this.examResults[this.questions[this.curQuest].id] = answer;
+        this.examResults[this.questions[this.curQuest].id] = answer || 'none';
         answersList = answer.map(val => {
           return "&answers=" + val;
         }).join('');
       } else if (typeof answer != "object"){
-        this.examResults[this.questions[this.curQuest].id] = answer;
+        this.examResults[this.questions[this.curQuest].id] = answer || 'none';
         answersList = '&answers=' + answer;
       } else {
-        this.examResults[this.questions[this.curQuest].id] = answer[0];
+        this.examResults[this.questions[this.curQuest].id] = answer[0] || 'none';
         answersList = '&answers=' + answer[0];
       }
 
